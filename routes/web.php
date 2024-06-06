@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\BooksController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,3 +18,10 @@ use Inertia\Inertia;
 */
 
 Route::get('/', [BooksController::class, 'index']);
+
+Route::prefix('admin')->group(function () {
+    Route::get('/', [DashboardController::class, 'index']);
+    Route::prefix('user')->group(function () {
+        Route::get('/', [UserController::class, 'index']);
+    });
+});
