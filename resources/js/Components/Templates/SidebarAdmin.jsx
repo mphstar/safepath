@@ -1,5 +1,5 @@
-import { Link } from "@inertiajs/react";
-import React, { useEffect, useState } from "react";
+import { Head, Link } from "@inertiajs/react";
+import React, { act, useEffect, useState } from "react";
 import { FaBuilding, FaHome, FaUser } from "react-icons/fa";
 import { FaBookOpenReader, FaChartColumn } from "react-icons/fa6";
 import { IoBookOutline, IoLocationOutline } from "react-icons/io5";
@@ -9,9 +9,9 @@ import { RiNewsLine } from "react-icons/ri";
 import { TbBuildingCommunity, TbReportSearch } from "react-icons/tb";
 
 const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
-
     return (
         <>
+            <Head title={active} />
             <div
                 className={`h-[100dvh] z-[99] bg-white flex max-w-[90%] md:min-w-0 w-[400px] md:w-[200px] lg:w-[300px] fixed ${
                     showSidebar ? "translate-x-0" : "-translate-x-[100%]"
