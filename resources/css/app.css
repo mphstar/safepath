@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.required::after {
+    /* buatkan content after dengan * */
+    content: "*";
+    color: red;
+    @apply px-1;
+
+}
+
 .poppins-thin {
     font-family: "Poppins", sans-serif;
     font-weight: 100;

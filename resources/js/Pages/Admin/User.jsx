@@ -3,10 +3,12 @@ import AdminLayout from "../../Components/Templates/AdminLayout";
 import NoDataTable from "../../Components/Molecules/NoDataTable";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import Pagination from "../../Components/Molecules/Pagination";
+import CustomModal from "../../Components/Molecules/CustomModal";
 
 const User = () => {
     return (
         <AdminLayout title="User">
+            <MyModal />
             <div className="w-full h-full flex flex-col px-3 py-4">
                 <div className="flex items-center w-full gap-4 mb-3">
                     <label className="input input-bordered flex w-full items-center gap-2 max-w-[200px] md:max-w-[300px]">
@@ -96,6 +98,49 @@ const User = () => {
                 </NoDataTable>
             </div>
         </AdminLayout>
+    );
+};
+
+const MyModal = () => {
+    return (
+        <CustomModal show={true} setShow={() => {}} title="Add User">
+            <form action="">
+                <label className="form-control w-full py-2">
+                    <div className="label">
+                        <span className="label-text required">Nama</span>
+                    </div>
+                    <input
+                        name="name"
+                        type="text"
+                        placeholder=""
+                        className="w-full border-2 outline-none px-3 py-2 rounded-[5px]"
+                    />
+                </label>
+                <label className="form-control w-full py-2">
+                    <div className="label">
+                        <span className="label-text required">Email</span>
+                    </div>
+                    <input
+                        name="email"
+                        type="text"
+                        placeholder=""
+                        className="w-full border-2 outline-none px-3 py-2 rounded-[5px]"
+                    />
+                </label>
+                <label className="form-control w-full py-2">
+                    <div className="label">
+                        <span className="label-text required">Password</span>
+                    </div>
+                    <input
+                        name="password"
+                        type="text"
+                        placeholder=""
+                        className="w-full border-2 outline-none px-3 py-2 rounded-[5px]"
+                    />
+                </label>
+                <button className="btn bg-slate-800 hover:bg-slate-950 text-white w-full mt-3">SAVE</button>
+            </form>
+        </CustomModal>
     );
 };
 

@@ -47,7 +47,7 @@ const Pagination = ({ page, setPage, showItem, total, limit }) => {
                     key={index}
                     className={`flex px-3 py-1 ${
                       page === pageNumber
-                        ? "bg-slate-900 text-white"
+                        ? "bg-primary text-white"
                         : "hover:bg-gray-200"
                     } rounded-md border-[2px] duration-300 ease-in-out cursor-pointer`}
                   >
@@ -61,7 +61,7 @@ const Pagination = ({ page, setPage, showItem, total, limit }) => {
                     key={index}
                     className={`flex px-3 py-1 ${
                       page === pageNumber
-                        ? "bg-slate-900 text-white dark:text-white"
+                        ? "bg-primary text-white dark:text-white"
                         : "hover:bg-gray-200"
                     } rounded-md border-[2px] duration-300 ease-in-out cursor-pointer`}
                   >
