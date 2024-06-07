@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\PolsekController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\BooksController;
 use Illuminate\Support\Facades\Route;
@@ -23,5 +25,12 @@ Route::prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'index']);
+    });
+    Route::prefix('polsek')->group(function () {
+        Route::get('/', [PolsekController::class, 'index']);
+    });
+    Route::prefix('kategori')->group(function () {
+        Route::get('/kejahatan', [KategoriController::class, 'indexKejahatan']);
+        Route::get('/kecelakaan', [KategoriController::class, 'indexKecelakaan']);
     });
 });

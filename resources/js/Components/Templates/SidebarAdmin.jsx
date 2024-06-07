@@ -9,27 +9,6 @@ import { RiNewsLine } from "react-icons/ri";
 import { TbBuildingCommunity, TbReportSearch } from "react-icons/tb";
 
 const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
-    const [collapseInventory, setCollapseInventory] = useState(false);
-    const [collapseActivity, setCollapseActivity] = useState(false);
-
-    useEffect(() => {
-        if (
-            active == "admin.item" ||
-            active == "admin.select.room" ||
-            active == "admin.room"
-        ) {
-            setCollapseInventory(true);
-        }
-
-        if (active == "admin.checkout" || active == "admin.retur") {
-            setCollapseActivity(true);
-        }
-
-        return () => {
-            setCollapseInventory(false);
-            setCollapseActivity(false);
-        };
-    }, []);
 
     return (
         <>
@@ -65,22 +44,16 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     href="/admin/user"
                 />
                 <SidebarItem
-                    title="Kecamatan"
+                    title="Polsek"
                     icon={<TbBuildingCommunity />}
-                    active={active == "Kecamatan"}
-                    href="/"
+                    active={active == "Polsek"}
+                    href="/admin/polsek"
                 />
                 <SidebarItem
-                    title="Category"
+                    title="Kategori"
                     icon={<LuBuilding />}
-                    active={active == "Category"}
-                    href="/"
-                />
-                <SidebarItem
-                    title="Location"
-                    icon={<IoLocationOutline />}
-                    active={active == "Location"}
-                    href="/"
+                    active={active == "Kejahatan" || active == "Kecelakaan"}
+                    href="/admin/kategori/kejahatan"
                 />
 
                 <p className="text-gray-400 text-sm py-2 mt-6">Services</p>

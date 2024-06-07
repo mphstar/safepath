@@ -3,25 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Polsek;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
-class UserController extends Controller
+class PolsekController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/User');
+        return Inertia::render('Admin/Polsek');
     }
 
     public function getData(Request $request)
     {
 
-        $data = User::orderBy('created_at', 'DESC');
+        $data = Polsek::orderBy('created_at', 'DESC');
 
         if ($request->has('search')) {
-            $data->where('nama', 'like', '%' . $request->search . '%');
+            $data->where('nama_kecamatan', 'like', '%' . $request->search . '%');
         }
 
         return response()->json([
@@ -30,23 +30,22 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function storeUser(Request $request)
+    public function storePolsek(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama' => 'required|string|max:50',
-            'email' => 'required|max:50|email|unique:users,email',
-            'password' => 'required',
+            'nama_kecamatan' => 'required|string|max:50',
+            'kontak' => 'required|email',
+            'penanggungjawab' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()->first()], 400);
         }
 
-        $data = new User;
-        $data->nama = $request->nama;
-        $data->email = $request->email;
-        $data->password = bcrypt($request->password);
-        $data->role = 'admin';
+        $data = new Polsek;
+        $data->nama_kecamatan = $request->nama_kecamatan;
+        $data->kontak = $request->kontak;
+        $data->penanggung_jawab = $request->penanggungjawab;
 
         $data->save();
 
@@ -54,45 +53,43 @@ class UserController extends Controller
         return response()->json(['message' => 'Data created successfully', 'data' => $data], 201);
     }
 
-    public function updateUser(Request $request)
+    public function updatePolsek(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'id' => 'required',
-            'nama' => 'required|string|max:50',
-            'email' => 'required|max:50|email|unique:users,email, ' . $request->id,
+            'nama_kecamatan' => 'required|string|max:50',
+            'kontak' => 'required|email',
+            'penanggungjawab' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()->first()], 400);
         }
 
-        $user = User::find($request->id);
+        $data = Polsek::find($request->id);
 
-        if (!$user) {
+        if (!$data) {
             return response()->json(['message' => 'Data not found'], 404);
         }
 
-        $user->nama = $request->nama;
-        $user->email = $request->email;
-        if ($request->has('password') && $request->password !== "" && $request->password !== null) {
-            $request['password'] = bcrypt($request->password);
-            $user->password = $request->password;
-        }
+        $data->nama_kecamatan = $request->nama_kecamatan;
+        $data->kontak = $request->kontak;
+        $data->penanggung_jawab = $request->penanggungjawab;
 
-        $user->save();
+        $data->save();
 
-        return response()->json(['message' => 'Data updated successfully', 'data' => $user], 200);
+        return response()->json(['message' => 'Data updated successfully', 'data' => $data], 200);
     }
 
-    public function deleteUser(Request $request)
+    public function deletePolsek(Request $request)
     {
-        $user = User::find($request->id);
+        $data = Polsek::find($request->id);
 
-        if (!$user) {
+        if (!$data) {
             return response()->json(['message' => 'Data not found'], 404);
         }
 
-        $user->delete();
+        $data->delete();
 
         return response()->json(['message' => 'Data deleted successfully'], 200);
     }
