@@ -15,7 +15,7 @@ const CustomModal = ({ show, setShow, children, title }) => {
                         >
                             {title}
                         </h1>
-                        <div onClick={() => setShow(!show)}>
+                        <div onClick={setShow}>
                             <svg
                                 className=""
                                 width="13"
@@ -33,7 +33,7 @@ const CustomModal = ({ show, setShow, children, title }) => {
                 </div>
             </div>
             <div
-                onClick={() => setShow(!show)}
+                onClick={setShow}
                 className={`duration-500 ease-in-out min-h-[100dvh] w-screen flex ${
                     show
                         ? "bg-black/50 backdrop-blur-sm pointer-events-auto"

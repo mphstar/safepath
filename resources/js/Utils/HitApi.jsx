@@ -21,7 +21,7 @@ const HitApi = async ({
         if (storeData.status === 201 || storeData.status === 200) {
             onSuccess();
         } else {
-            Swal.fire("Gagal", result.message, "error");
+            Swal.fire("Gagal", result.errors, "error");
 
             onError();
         }
