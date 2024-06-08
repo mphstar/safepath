@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AdminLayout from "../../Components/Templates/AdminLayout";
 import NoDataTable from "../../Components/Molecules/NoDataTable";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaInfo, FaTrash } from "react-icons/fa";
 import Pagination from "../../Components/Molecules/Pagination";
 import CustomModal from "../../Components/Molecules/CustomModal";
 import { fetcher } from "../../Utils/Fetcher";
@@ -15,7 +15,7 @@ import HitApi from "../../Utils/HitApi";
 import DeleteData from "../../Utils/DeleteData";
 import usePolsek from "../../Stores/usePolsek";
 import useBerita from "../../Stores/useBerita";
-import { MdOutlineCloudUpload } from "react-icons/md";
+import { MdInfoOutline, MdOutlineCloudUpload } from "react-icons/md";
 
 const Berita = () => {
     const store = useBerita();
@@ -41,6 +41,7 @@ const Berita = () => {
     return (
         <AdminLayout title="Berita">
             <MyModal URL={URL} />
+            <DetailModal />
             <div className="w-full h-full flex flex-col px-3 py-4">
                 <div className="flex items-center w-full gap-4 mb-3">
                     <label className="input input-bordered flex w-full items-center gap-2 max-w-[200px] md:max-w-[300px]">
@@ -117,6 +118,19 @@ const Berita = () => {
                                                 </td>
                                                 <td>
                                                     <div className="flex gap-2 items-center">
+                                                        <button
+                                                            onClick={() => {
+                                                                store.setItemSelected(
+                                                                    item
+                                                                );
+                                                                store.handleDetailModal();
+                                                            }}
+                                                            className="btn btn-sm h-fit py-3 bg-slate-800 text-white hover:bg-slate-950"
+                                                        >
+                                                            <MdInfoOutline
+                                                                size={15}
+                                                            />
+                                                        </button>
                                                         {/* button edit */}
                                                         <button
                                                             onClick={() => {
@@ -172,6 +186,38 @@ const Berita = () => {
                 </NoDataTable>
             </div>
         </AdminLayout>
+    );
+};
+
+const DetailModal = () => {
+    const store = useBerita();
+
+    return (
+        <CustomModal
+            show={store.detailModal}
+            setShow={() => store.handleDetailModal()}
+            title={"Detail Berita"}
+        >
+            {store.itemSelected && (
+                <div className="flex flex-col mt-2">
+                    <img
+                        className="h-[200px] mb-4 rounded-md"
+                        src={`/uploads/laporan/${store.itemSelected.gambar}`}
+                        alt="Image"
+                    />
+                    <h1 className="font-semibold text-lg">
+                        {store.itemSelected.judul}
+                    </h1>
+                    <p className="text-xs">
+                        Penulis: {store.itemSelected.penulis}
+                    </p>
+
+                    <p className="text-sm mt-4">
+                        {store.itemSelected.deskripsi}
+                    </p>
+                </div>
+            )}
+        </CustomModal>
     );
 };
 

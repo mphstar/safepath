@@ -2,6 +2,11 @@ import { create } from "zustand";
 
 const useBerita = create((set) => ({
     modal: false,
+    detailModal: false,
+    handleDetailModal: () =>
+        set((state) => ({ detailModal: !state.detailModal })),
+    itemSelected: undefined,
+    setItemSelected: (data) => set({ itemSelected: data }),
     handleModal: () => set((state) => ({ modal: !state.modal })),
     form: {
         field: {
