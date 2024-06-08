@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PolsekController;
 use App\Http\Controllers\Admin\UserController;
@@ -47,5 +48,12 @@ Route::prefix('v1')->group(function () {
             Route::put('/', [KategoriController::class, 'updateKategoriKecelakaan']);
             Route::delete('/', [KategoriController::class, 'deleteKategoriKecelakaan']);
         });
+    });
+
+    Route::prefix('berita')->group(function () {
+        Route::get('/', [BeritaController::class, 'getData']);
+        Route::post('/', [BeritaController::class, 'storeBerita']);
+        Route::post('/update', [BeritaController::class, 'updateBerita']);
+        Route::delete('/', [BeritaController::class, 'deleteBerita']);
     });
 });

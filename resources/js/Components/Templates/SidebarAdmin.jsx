@@ -64,10 +64,10 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     href="/"
                 />
                 <SidebarItem
-                    title="News"
+                    title="Berita"
                     icon={<RiNewsLine />}
-                    active={active == "News"}
-                    href="/"
+                    active={active == "Berita"}
+                    href="/admin/berita"
                 />
 
                 <p className="text-gray-400 text-sm py-2 mt-6">Report</p>

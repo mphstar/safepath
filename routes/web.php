@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PolsekController;
@@ -23,6 +24,8 @@ Route::get('/', [BooksController::class, 'index']);
 
 Route::prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
+
+    // Master Data
     Route::prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'index']);
     });
@@ -33,4 +36,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/kejahatan', [KategoriController::class, 'indexKejahatan']);
         Route::get('/kecelakaan', [KategoriController::class, 'indexKecelakaan']);
     });
+
+    // Service
+    Route::prefix('berita')->group(function () {
+        Route::get('/', [BeritaController::class, 'index']);
+    });
+
 });
