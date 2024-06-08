@@ -61,7 +61,7 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     title="Confirm Report"
                     icon={<TbReportSearch />}
                     active={active == "Confirm Report"}
-                    href="/"
+                    href="/admin/confirm-report"
                 />
                 <SidebarItem
                     title="Berita"

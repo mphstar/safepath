@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DetailKategori extends Model
+class Laporan extends Model
 {
     use HasFactory;
-    protected $table = 'detail_kategori'; // mendevinisikan nama table
+    protected $table = 'laporan'; // mendevinisikan nama table
     protected $primaryKey = 'id'; // mendevinisikan primary key
     public $incrementing = true; // auto pada primaryKey incremment true
     public $timestamps = true; // create_at dan update_at false
@@ -16,9 +16,15 @@ class DetailKategori extends Model
     // fillable mendevinisikan field mana saja yang dapat kita isikan
     protected $guarded = [];
 
-    // relasi ke kategori
-    public function kategori()
+    // relasi ke user
+    public function user()
     {
-        return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    // relasi ke detail kategori
+    public function detailKategori()
+    {
+        return $this->belongsTo(DetailKategori::class, 'detail_kategori_id', 'id');
     }
 }

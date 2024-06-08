@@ -1,12 +1,12 @@
 import React from "react";
 
-const CustomModal = ({ show, setShow, children, title }) => {
+const CustomModal = ({ show, setShow, children, title, className }) => {
     return (
         <>
             <div
                 className={`bg-white h-fit max-h-[90%] w-[400px] max-w-[90%] px-[27px] py-[23px] flex rounded-lg fixed z-[201] mx-auto right-[50%] translate-x-[50%] top-[50%] -translate-y-[50%] ${
                     show ? "scale-100" : "scale-0"
-                } duration-300 ease-in-out`}
+                } duration-300 ease-in-out ${className}`}
             >
                 <div className="flex flex-col w-full flex-1">
                     <div className="flex flex-row w-full items-center h-fit mb-[23px]">

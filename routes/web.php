@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PolsekController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\BooksController;
 use Illuminate\Support\Facades\Route;
@@ -38,8 +39,10 @@ Route::prefix('admin')->group(function () {
     });
 
     // Service
+    Route::prefix('confirm-report')->group(function () {
+        Route::get('/', [ReportController::class, 'indexConfirmReport']);
+    });
     Route::prefix('berita')->group(function () {
         Route::get('/', [BeritaController::class, 'index']);
     });
-
 });

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PolsekController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -55,5 +56,11 @@ Route::prefix('v1')->group(function () {
         Route::post('/', [BeritaController::class, 'storeBerita']);
         Route::post('/update', [BeritaController::class, 'updateBerita']);
         Route::delete('/', [BeritaController::class, 'deleteBerita']);
+    });
+
+    Route::prefix('report')->group(function () {
+        Route::get('/confirm', [ReportController::class, 'getDataConfirmReport']);
+        Route::post('/confirm', [ReportController::class, 'confirmReport']);
+        Route::post('/reject', [ReportController::class, 'rejectReport']);
     });
 });
