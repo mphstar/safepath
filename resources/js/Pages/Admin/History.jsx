@@ -17,13 +17,14 @@ import usePolsek from "../../Stores/usePolsek";
 import useBerita from "../../Stores/useBerita";
 import { MdInfoOutline, MdOutlineCloudUpload } from "react-icons/md";
 import useConfirmReport from "../../Stores/useConfirmReport";
+import useHistory from "../../Stores/useHistory";
 
-const ConfirmReport = () => {
-    const store = useConfirmReport();
+const History = () => {
+    const store = useHistory();
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
     const URL = GenerateUrl(
-        "/api/v1/report/confirm",
+        "/api/v1/history",
         `page=${page}`,
         `search=${encodeURIComponent(search)}`
     );
@@ -40,7 +41,7 @@ const ConfirmReport = () => {
     };
 
     return (
-        <AdminLayout title="Confirm Report">
+        <AdminLayout title="History">
             <DetailModal URL={URL} />
 
             <div className="w-full h-full flex flex-col px-3 py-4">
@@ -86,6 +87,7 @@ const ConfirmReport = () => {
                                             <th>Kategori</th>
                                             <th>No HP</th>
                                             <th>Lokasi</th>
+                                            <th>Status</th>
                                             <th>Created At</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -131,6 +133,18 @@ const ConfirmReport = () => {
                                                 <td>{item.user.nohp}</td>
                                                 <td>{item.lokasi}</td>
                                                 <td>
+                                                    <div
+                                                        className={`text-xs px-3 py-1 rounded-md w-fit ${
+                                                            item.status ==
+                                                            "disetujui"
+                                                                ? "bg-green-200 text-green-500"
+                                                                : "bg-red-200 text-red-500"
+                                                        }`}
+                                                    >
+                                                        {item.status}
+                                                    </div>
+                                                </td>
+                                                <td>
                                                     {new Date(
                                                         item.created_at
                                                     ).toLocaleString()}
@@ -173,50 +187,7 @@ const ConfirmReport = () => {
 };
 
 const DetailModal = ({ URL }) => {
-    const store = useConfirmReport();
-
-    const handleReport = ({ isConfirm = true }) => {
-        Swal.fire({
-            title: "Konfirmasi",
-            text: `Apakah anda yakin ingin ${
-                isConfirm ? "konfirmasi" : "menolak"
-            } data?`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: "Loading",
-                    html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
-                    allowOutsideClick: false,
-                    showConfirmButton: false,
-                });
-
-                HitApi({
-                    url: `/api/v1/report/${isConfirm ? "confirm" : "reject"}`,
-                    method: "POST",
-                    body: {
-                        id: store.itemSelected.id,
-                    },
-                    onSuccess: () => {
-                        Swal.fire(
-                            "Berhasil",
-                            `Data berhasil ${
-                                isConfirm ? "diterima" : "ditolak"
-                            }`,
-                            "success"
-                        ).then(() => {
-                            store.handleDetailModal();
-                            mutate(URL);
-                        });
-                    },
-                });
-            }
-        });
-    };
+    const store = useHistory();
 
     return (
         <CustomModal
@@ -236,23 +207,16 @@ const DetailModal = ({ URL }) => {
                         <p className="my-4 font-semibold">Deskripsi</p>
                         <p>{store.itemSelected.keterangan}</p>
 
-                        <div className="flex gap-2">
-                            <button
-                                onClick={() =>
-                                    handleReport({ isConfirm: false })
-                                }
-                                className="btn bg-red-500 hover:bg-red-600 text-white w-fit mt-6"
+                        <div className="flex gap-2 mt-7">
+                            <div
+                                className={`text-xs px-3 py-1 rounded-md ${
+                                    store.itemSelected.status == "disetujui"
+                                        ? "bg-green-200 text-green-500"
+                                        : "bg-red-200 text-red-500"
+                                }`}
                             >
-                                Tolak
-                            </button>
-                            <button
-                                onClick={() =>
-                                    handleReport({ isConfirm: true })
-                                }
-                                className="btn bg-slate-800 hover:bg-slate-950 text-white w-fit mt-6"
-                            >
-                                Confirm
-                            </button>
+                                {store.itemSelected.status}
+                            </div>
                         </div>
                     </div>
                     <div className="flex flex-col w-full md:w-[50%] order-1 md:order-2 md:border-l-2 md:pl-4 md:sticky h-fit md:top-0 md:left-0">
@@ -296,4 +260,4 @@ const DetailModal = ({ URL }) => {
     );
 };
 
-export default ConfirmReport;
+export default History;

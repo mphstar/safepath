@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PolsekController;
 use App\Http\Controllers\Admin\ReportController;
@@ -62,5 +63,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/confirm', [ReportController::class, 'getDataConfirmReport']);
         Route::post('/confirm', [ReportController::class, 'confirmReport']);
         Route::post('/reject', [ReportController::class, 'rejectReport']);
+    });
+
+    Route::prefix('history')->group(function () {
+        Route::get('/', [HistoryController::class, 'getData']);
     });
 });

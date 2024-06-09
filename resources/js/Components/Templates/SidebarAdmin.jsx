@@ -80,8 +80,8 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                 <SidebarItem
                     title="History Report"
                     icon={<MdHistory />}
-                    active={active == "History Report"}
-                    href="/"
+                    active={active == "History"}
+                    href="/admin/history"
                 />
             </div>
             <div
