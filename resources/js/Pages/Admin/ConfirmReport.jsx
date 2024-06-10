@@ -44,7 +44,7 @@ const ConfirmReport = () => {
             <DetailModal URL={URL} />
 
             <div className="w-full h-full flex flex-col px-3 py-4">
-                <div className="flex items-center w-full gap-4 mb-3">
+                <div className="flex items-center w-full gap-4 mb-3 justify-between">
                     <label className="input input-bordered flex w-full items-center gap-2 max-w-[200px] md:max-w-[300px]">
                         <input
                             type="text"
@@ -65,6 +65,13 @@ const ConfirmReport = () => {
                             />
                         </svg>
                     </label>
+                    <div className="flex flex-row">
+                        <a href="/admin/history/export?status=menunggu">
+                            <button className="btn bg-green-500 hover:bg-green-600 px-3 py-2 text-white">
+                                Export
+                            </button>
+                        </a>
+                    </div>
                 </div>
                 <NoDataTable
                     isLoading={isLoading}

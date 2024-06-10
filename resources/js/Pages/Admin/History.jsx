@@ -18,6 +18,7 @@ import useBerita from "../../Stores/useBerita";
 import { MdInfoOutline, MdOutlineCloudUpload } from "react-icons/md";
 import useConfirmReport from "../../Stores/useConfirmReport";
 import useHistory from "../../Stores/useHistory";
+import { Link } from "@inertiajs/react";
 
 const History = () => {
     const store = useHistory();
@@ -45,7 +46,7 @@ const History = () => {
             <DetailModal URL={URL} />
 
             <div className="w-full h-full flex flex-col px-3 py-4">
-                <div className="flex items-center w-full gap-4 mb-3">
+                <div className="flex items-center justify-between w-full gap-4 mb-3">
                     <label className="input input-bordered flex w-full items-center gap-2 max-w-[200px] md:max-w-[300px]">
                         <input
                             type="text"
@@ -66,6 +67,13 @@ const History = () => {
                             />
                         </svg>
                     </label>
+                    <div className="flex flex-row">
+                        <a href="/admin/history/export?status=history">
+                            <button className="btn bg-green-500 hover:bg-green-600 px-3 py-2 text-white">
+                                Export
+                            </button>
+                        </a>
+                    </div>
                 </div>
                 <NoDataTable
                     isLoading={isLoading}

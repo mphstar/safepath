@@ -27,4 +27,10 @@ class Laporan extends Model
     {
         return $this->belongsTo(DetailKategori::class, 'detail_kategori_id', 'id');
     }
+
+    // relasi ke polsek
+    public function polsek()
+    {
+        return $this->belongsTo(Polsek::class, 'polsek_id', 'id');
+    }
 }

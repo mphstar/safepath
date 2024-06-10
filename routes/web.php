@@ -50,5 +50,6 @@ Route::prefix('admin')->group(function () {
     // report
     Route::prefix('history')->group(function () {
         Route::get('/', [HistoryController::class, 'index']);
+        Route::get('/export', [HistoryController::class, 'export']);
     });
 });

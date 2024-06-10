@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\HistoryExport;
 use App\Http\Controllers\Controller;
 use App\Models\Laporan;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class HistoryController extends Controller
 {
@@ -29,5 +31,11 @@ class HistoryController extends Controller
             'status' => 'success',
             'result' => $data->paginate(10)
         ], 200);
+    }
+
+    public function export()
+    {
+
+        return Excel::download(new HistoryExport(request()->status ?? ""), 'history.xlsx');
     }
 }
