@@ -68,4 +68,8 @@ Route::prefix('v1')->group(function () {
     Route::prefix('history')->group(function () {
         Route::get('/', [HistoryController::class, 'getData']);
     });
+
+    // for mobile
+    Route::post('/register', [UserController::class, 'registerUser']);
+    Route::post('/login', [UserController::class, 'loginUser']);
 });

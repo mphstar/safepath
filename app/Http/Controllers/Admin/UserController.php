@@ -96,4 +96,54 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Data deleted successfully'], 200);
     }
+
+    public function registerUser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|string|max:50',
+            'email' => 'required|max:50|email|unique:users,email',
+            'password' => 'required',
+            'nohp' => 'required|max:13',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()->first()], 400);
+        }
+
+        $data = new User;
+        $data->nama = $request->nama;
+        $data->email = $request->email;
+        $data->password = bcrypt($request->password);
+        $data->role = 'user';
+        $data->nohp = $request->nohp;
+
+        $data->save();
+
+        // Berikan respon dengan data yang berhasil dibuat
+        return response()->json(['message' => 'Data created successfully', 'data' => $data], 201);
+    }
+
+    public function loginUser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|max:50|email',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()->first()], 400);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Email or Password is incorrect'], 400);
+        }
+
+        if (!password_verify($request->password, $user->password)) {
+            return response()->json(['message' => 'Email or Password is incorrect'], 400);
+        }
+
+        return response()->json(['message' => 'Login success', 'data' => $user], 200);
+    }
 }

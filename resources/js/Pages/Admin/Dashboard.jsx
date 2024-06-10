@@ -132,7 +132,7 @@ const OverlayChart = () => {
                 </div>
                 <div className="bg-white border-2 h-[300px] rounded-md pointer-events-auto flex flex-col px-3 py-2">
                     <h1 className="font-semibold">Crime & Accident</h1>
-                    <div className="w-full h-full py-3 pr-16">
+                    <div className="w-full h-full py-3 ">
                         <ReactApexChart
                             options={pieOptions}
                             series={pieOptions.series}
