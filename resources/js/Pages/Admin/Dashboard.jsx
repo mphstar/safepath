@@ -9,6 +9,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import ReactApexChart from "react-apexcharts";
+import { usePage } from "@inertiajs/react";
 
 const Dashboard = () => {
     return (
@@ -39,6 +40,8 @@ const Dashboard = () => {
 };
 
 const OverlayChart = () => {
+    const { statistik } = usePage().props;
+
     const pieOptions = {
         series: [44, 55, 13, 43, 22],
         options: {
@@ -74,16 +77,16 @@ const OverlayChart = () => {
 
         series: [
             {
-                name: "Series 1",
-                data: [30, 40, 35, 50],
+                name: "Kejahatan",
+                data: statistik.kejahatan.map((item) => item.total).reverse(),
             },
             {
-                name: "Series 2",
-                data: [40, 20, 35, 33],
+                name: "Kecelakaan",
+                data: statistik.kecelakaan.map((item) => item.total).reverse(),
             },
         ],
         xaxis: {
-            categories: ["Jan", "Feb", "Mar", "Apr"],
+            categories: statistik.kejahatan.map((item) => item.bulan).reverse(),
         },
     };
 
