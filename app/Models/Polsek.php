@@ -15,4 +15,10 @@ class Polsek extends Model
 
     // fillable mendevinisikan field mana saja yang dapat kita isikan
     protected $guarded = [];
+
+    // relasi ke laporan
+    public function laporan()
+    {
+        return $this->hasMany(Laporan::class, 'polsek_id', 'id');
+    }
 }

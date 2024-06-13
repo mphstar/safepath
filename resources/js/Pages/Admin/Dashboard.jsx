@@ -40,7 +40,7 @@ const Dashboard = () => {
 };
 
 const OverlayChart = () => {
-    const { statistik } = usePage().props;
+    const { statistik, report } = usePage().props;
 
     const pieOptions = {
         series: [44, 55, 13, 43, 22],
@@ -63,6 +63,46 @@ const OverlayChart = () => {
                     },
                 },
             ],
+        },
+    };
+
+    const chartBarOptions = {
+        // Define your chart options here
+        chart: {
+            type: "bar",
+            toolbar: {
+                show: false,
+            },
+        },
+        plotOptions: {
+            bar: {
+                horizontal: true,
+            },
+        },
+
+        series: [
+            {
+                name: "Kejahatan",
+                data: report.kejahatan.map((item) => item.total).reverse(),
+            },
+            {
+                name: "Kecelakaan",
+                data: report.kecelakaan.map((item) => item.total).reverse(),
+            },
+        ],
+
+        xaxis: {
+            max: "10px",
+            type: "category",
+            categories: report.kejahatan
+                .map((item) => item.kecamatan)
+                .reverse(),
+            labels: {
+                style: {
+                    fontSize: "8px",
+                    fontWeight: 500,
+                },
+            },
         },
     };
 
@@ -126,8 +166,8 @@ const OverlayChart = () => {
                     <h1 className="font-semibold">Report</h1>
                     <div className="w-full h-full">
                         <ReactApexChart
-                            options={chartOptions}
-                            series={chartOptions.series}
+                            options={chartBarOptions}
+                            series={chartBarOptions.series}
                             type="bar"
                             height={"100%"}
                         />

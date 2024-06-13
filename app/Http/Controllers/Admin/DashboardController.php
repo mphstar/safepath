@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Laporan;
+use App\Models\Polsek;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -101,13 +102,80 @@ class DashboardController extends Controller
         );
     }
 
+    protected function getReport()
+    {
+        $kecamatan = Polsek::withCount(['laporan' => function ($query) {
+            $query->where('status', 'disetujui');
+        }])->orderBy('laporan_count', 'desc')->limit(4)->get();
+
+
+        $jumlah = 0;
+
+        foreach ($kecamatan as $key => $value) {
+            $jumlah++;
+        }
+
+        $data1 = [];
+        for ($i = 0; $i < $jumlah; $i++) {
+            $data1[] = array(
+                'kecamatan' => $kecamatan[$i]->nama_kecamatan,
+                'total' => 0
+            );
+        }
+
+        $kejahatan = Polsek::withCount(['laporan' => function ($query) {
+            $query->where('status', 'disetujui')->whereHas('detailKategori', function ($query) {
+                $query->where('kategori_id', 1);
+            });
+        }])->orderBy('laporan_count', 'desc')->get();
+
+
+        foreach ($data1 as $key => $value) {
+            foreach ($kejahatan as $item) {
+                if ($value['kecamatan'] == $item->nama_kecamatan) {
+                    $data1[$key]['total'] = $item->laporan_count;
+                }
+            }
+        }
+
+        $data2 = [];
+        for ($i = 0; $i < $jumlah; $i++) {
+            $data2[] = array(
+                'kecamatan' => $kecamatan[$i]->nama_kecamatan,
+                'total' => 0
+            );
+        }
+
+        $kecelakaan = Polsek::withCount(['laporan' => function ($query) {
+            $query->where('status', 'disetujui')->whereHas('detailKategori', function ($query) {
+                $query->where('kategori_id', 2);
+            });
+        }])->orderBy('laporan_count', 'desc')->get();
+
+
+        foreach ($data2 as $key => $value) {
+            foreach ($kecelakaan as $item) {
+                if ($value['kecamatan'] == $item->nama_kecamatan) {
+                    $data2[$key]['total'] = $item->laporan_count;
+                }
+            }
+        }
+
+        return array(
+            'kejahatan' => $data1,
+            'kecelakaan' => $data2
+        );
+    }
+
     public function index()
     {
         $statistik = $this->getStatistik();
+        $report = $this->getReport();
 
 
         return Inertia::render('Admin/Dashboard', [
-            'statistik' => $statistik
+            'statistik' => $statistik,
+            'report' => $report
         ]);
     }
 }
