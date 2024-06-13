@@ -21,4 +21,10 @@ class DetailKategori extends Model
     {
         return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
     }
+
+    // relasi ke laporan
+    public function laporan()
+    {
+        return $this->hasMany(Laporan::class, 'detail_kategori_id', 'id');
+    }
 }

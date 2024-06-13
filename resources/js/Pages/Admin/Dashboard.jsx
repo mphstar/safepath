@@ -40,16 +40,16 @@ const Dashboard = () => {
 };
 
 const OverlayChart = () => {
-    const { statistik, report } = usePage().props;
+    const { statistik, report, kategori } = usePage().props;
 
     const pieOptions = {
-        series: [44, 55, 13, 43, 22],
+        series: kategori.map((item) => item.laporan_count),
         options: {
             chart: {
                 width: 380,
                 type: "pie",
             },
-            labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+            labels: kategori.map((item) => item.nama),
             responsive: [
                 {
                     breakpoint: 480,
@@ -92,17 +92,24 @@ const OverlayChart = () => {
         ],
 
         xaxis: {
-            max: "10px",
-            type: "category",
+            labels: {
+                show: true,
+                rotate: -45,
+                trim: true,
+                minHeight: 22,
+            },
+            tooltip: {
+                enabled: false,
+            },
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false,
+            },
             categories: report.kejahatan
                 .map((item) => item.kecamatan)
                 .reverse(),
-            labels: {
-                style: {
-                    fontSize: "8px",
-                    fontWeight: 500,
-                },
-            },
         },
     };
 
@@ -177,7 +184,7 @@ const OverlayChart = () => {
                     <h1 className="font-semibold">Crime & Accident</h1>
                     <div className="w-full h-full py-3 ">
                         <ReactApexChart
-                            options={pieOptions}
+                            options={pieOptions.options}
                             series={pieOptions.series}
                             type="pie"
                             height={"100%"}

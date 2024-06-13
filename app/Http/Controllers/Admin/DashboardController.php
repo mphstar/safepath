@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DetailKategori;
 use App\Models\Laporan;
 use App\Models\Polsek;
 use Illuminate\Http\Request;
@@ -167,15 +168,29 @@ class DashboardController extends Controller
         );
     }
 
+    public function getCountKategori()
+    {
+        $data = DetailKategori::withCount(['laporan' => function ($query) {
+            $query->where('status', 'disetujui');
+        }])->orderBy('laporan_count', 'desc')->limit(8)->get();
+
+        $filter = $data->filter(function ($value, $key) {
+            return $value->laporan_count > 0;
+        });
+
+        return $filter;
+    }
+
     public function index()
     {
         $statistik = $this->getStatistik();
         $report = $this->getReport();
-
+        $kategori = $this->getCountKategori();
 
         return Inertia::render('Admin/Dashboard', [
             'statistik' => $statistik,
-            'report' => $report
+            'report' => $report,
+            'kategori' => $kategori,
         ]);
     }
 }
