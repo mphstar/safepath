@@ -75,7 +75,7 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     title="Grafik"
                     icon={<FaChartColumn />}
                     active={active == "Grafik"}
-                    href="/"
+                    href="/admin/grafik"
                 />
                 <SidebarItem
                     title="History Report"

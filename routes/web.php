@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\GrafikController;
 use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PolsekController;
@@ -48,6 +49,9 @@ Route::prefix('admin')->group(function () {
     });
 
     // report
+    Route::prefix('grafik')->group(function () {
+        Route::get('/', [GrafikController::class, 'index']);
+    });
     Route::prefix('history')->group(function () {
         Route::get('/', [HistoryController::class, 'index']);
         Route::get('/export', [HistoryController::class, 'export']);

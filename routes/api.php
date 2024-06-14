@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\GrafikController;
 use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PolsekController;
@@ -64,6 +65,13 @@ Route::prefix('v1')->group(function () {
         Route::post('/confirm', [ReportController::class, 'confirmReport']);
         Route::post('/reject', [ReportController::class, 'rejectReport']);
     });
+
+
+    Route::prefix('grafik')->group(function () {
+        Route::post('/tahun', [GrafikController::class, 'filterTahun']);
+        Route::post('/range', [GrafikController::class, 'filterRange']);
+    });
+
 
     Route::prefix('history')->group(function () {
         Route::get('/', [HistoryController::class, 'getData']);
