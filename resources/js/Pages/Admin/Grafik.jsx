@@ -6,6 +6,8 @@ import ReactApexChart from "react-apexcharts";
 import Swal from "sweetalert2";
 
 const Grafik = () => {
+    const [tahun, setTahun] = useState(new Date().getFullYear());
+
     const [chartOptions, setChartOptions] = useState({
         series: [
             {
@@ -106,7 +108,6 @@ const Grafik = () => {
         });
     };
     const fetchRange = async ({ startFrom, endTo }) => {
-       
         // fetch data from API
         const response = await fetch("/api/v1/grafik/range", {
             method: "POST",
@@ -175,11 +176,19 @@ const Grafik = () => {
                         <select
                             className="border-2 px-3 appearance-none py-2 pr-8 rounded-md"
                             name=""
+                            value={tahun}
+                            onChange={(e) => {
+                                setTahun(e.target.value);
+                                fetchStatistic({ tahun: e.target.value });
+                            }}
                             id=""
                         >
                             {/* tampilkan tahun sekarang sampai 20 tahun kebelakang */}
                             {Array.from({ length: 30 }).map((_, index) => (
-                                <option key={index}>
+                                <option
+                                    value={new Date().getFullYear() - index}
+                                    key={index}
+                                >
                                     {new Date().getFullYear() - index}
                                 </option>
                             ))}

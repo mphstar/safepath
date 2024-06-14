@@ -187,10 +187,14 @@ class DashboardController extends Controller
         $report = $this->getReport();
         $kategori = $this->getCountKategori();
 
+        $laporan = Laporan::with(['detailKategori.kategori', 'user'])->where('status', 'disetujui')->orderBy('created_at', 'DESC')->select('lokasi', 'detail_kategori_id')->get();
+
+
         return Inertia::render('Admin/Dashboard', [
             'statistik' => $statistik,
             'report' => $report,
             'kategori' => $kategori,
+            'laporan' => $laporan
         ]);
     }
 }

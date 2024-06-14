@@ -12,6 +12,8 @@ import ReactApexChart from "react-apexcharts";
 import { usePage } from "@inertiajs/react";
 
 const Dashboard = () => {
+    const { laporan } = usePage().props;
+
     return (
         <AdminLayout title="Dashboard" noPadding>
             <div className="w-full h-full relative">
@@ -27,11 +29,24 @@ const Dashboard = () => {
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={[51.505, -0.09]}>
-                        <Popup>
-                            A pretty CSS3 popup. <br /> Easily customizable.
-                        </Popup>
-                    </Marker>
+                    {laporan &&
+                        laporan.map((item, i) => {
+                            const lat = item.lokasi.split(",")[0];
+                            const long = item.lokasi.split(",")[1];
+
+                            return (
+                                <Marker key={i} position={[lat, long]}>
+                                    <Popup>
+                                        <h1 className="font-semibold text-sm">
+                                            {item.detail_kategori.kategori.nama}
+                                        </h1>
+                                        <p className="text-xs">
+                                            {item.detail_kategori.nama}
+                                        </p>
+                                    </Popup>
+                                </Marker>
+                            );
+                        })}
                 </MapContainer>
                 <OverlayChart />
             </div>
