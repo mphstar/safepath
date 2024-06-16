@@ -2,9 +2,10 @@ import { Head, Link } from "@inertiajs/react";
 import React, { act, useEffect, useState } from "react";
 import { FaBuilding, FaHome, FaUser } from "react-icons/fa";
 import { FaBookOpenReader, FaChartColumn } from "react-icons/fa6";
-import { IoBookOutline, IoLocationOutline } from "react-icons/io5";
 import { LuBuilding } from "react-icons/lu";
-import { MdHistory, MdOutlineCategory } from "react-icons/md";
+
+import { BiCctv } from "react-icons/bi";
+import { MdHistory } from "react-icons/md";
 import { RiNewsLine } from "react-icons/ri";
 import { TbBuildingCommunity, TbReportSearch } from "react-icons/tb";
 
@@ -54,6 +55,13 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     icon={<LuBuilding />}
                     active={active == "Kejahatan" || active == "Kecelakaan"}
                     href="/admin/kategori/kejahatan"
+                />
+
+                <SidebarItem
+                    title="CCTV"
+                    icon={<BiCctv />}
+                    active={active == "CCTV"}
+                    href="/admin/cctv"
                 />
 
                 <p className="text-gray-400 text-sm py-2 mt-6">Services</p>

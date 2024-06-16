@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\CctvController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GrafikController;
 use App\Http\Controllers\Admin\HistoryController;
@@ -37,6 +38,10 @@ Route::prefix('admin')->group(function () {
     Route::prefix('kategori')->group(function () {
         Route::get('/kejahatan', [KategoriController::class, 'indexKejahatan']);
         Route::get('/kecelakaan', [KategoriController::class, 'indexKecelakaan']);
+    });
+
+    Route::prefix('cctv')->group(function () {
+        Route::get('/', [CctvController::class, 'index']);
     });
 
     // Service
