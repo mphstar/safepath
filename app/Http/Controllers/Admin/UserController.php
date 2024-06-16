@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ContactPreference;
 use App\Models\User;
+use App\Models\UserPreference;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -118,6 +120,18 @@ class UserController extends Controller
         $data->nohp = $request->nohp;
 
         $data->save();
+
+        $userPreference = UserPreference::create([
+            'user_id' => $data->id,
+            'pesan' => "Tolong aku...!!?",
+        ]);
+
+        $contactPreference = ContactPreference::create([
+            'user_preference_id' => $userPreference->id,
+            'nama' => "Polisi",
+            'email' => "naisyuu21@gmail.com",
+            'status' => 1,
+        ]);
 
         // Berikan respon dengan data yang berhasil dibuat
         return response()->json(['message' => 'Data created successfully', 'data' => $data], 201);

@@ -5,7 +5,9 @@ use App\Http\Controllers\Admin\GrafikController;
 use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PolsekController;
+use App\Http\Controllers\Admin\PreferenceController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\SosController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -80,4 +82,20 @@ Route::prefix('v1')->group(function () {
     // for mobile
     Route::post('/register', [UserController::class, 'registerUser']);
     Route::post('/login', [UserController::class, 'loginUser']);
+    
+    Route::get('/berita', [BeritaController::class, 'getData']);
+    
+    Route::post('/reportuser', [ReportController::class, 'getReportUser']);
+    Route::post('/report/add', [ReportController::class, 'insertReport']);
+    
+    Route::get('/polsek', [PolsekController::class, 'getData']);
+    Route::get('/kategori/detail', [KategoriController::class, 'getAllDetailKategori']);
+    Route::get('/kategori', [KategoriController::class, 'getAllKategori']);
+    
+    Route::get('/laporan', [HistoryController::class, 'getAllLaporanFinished']);
+    
+    Route::post('/preference', [PreferenceController::class, 'getData']);
+    Route::post('/preference/update', [PreferenceController::class, 'updateData']);
+
+    Route::post('/sos', [SosController::class, 'sendSos']);
 });

@@ -28,7 +28,7 @@ class BeritaController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'result' => $data->paginate(10)
+            'result' => $data->paginate($request->limit ?? 10)
         ], 200);
     }
 
@@ -51,7 +51,7 @@ class BeritaController extends Controller
 
         $image_name = time() . '.' . $image->getClientOriginalExtension();
 
-        $path = public_path('uploads/laporan/') . "/" . $image_name;
+        $path = public_path('uploads/berita/') . "/" . $image_name;
 
         Image::make($image->getRealPath())->resize(700, null, function ($constraint) {
             $constraint->aspectRatio();
@@ -101,7 +101,7 @@ class BeritaController extends Controller
             }
 
             // hapus gambar lama
-            $image_path = public_path('uploads/laporan/') . "/" . $data->gambar;
+            $image_path = public_path('uploads/berita/') . "/" . $data->gambar;
             if (file_exists($image_path)) {
                 unlink($image_path);
             }
@@ -110,7 +110,7 @@ class BeritaController extends Controller
 
             $image_name = time() . '.' . $image->getClientOriginalExtension();
 
-            $path = public_path('uploads/laporan/') . "/" . $image_name;
+            $path = public_path('uploads/berita/') . "/" . $image_name;
 
             Image::make($image->getRealPath())->resize(700, null, function ($constraint) {
                 $constraint->aspectRatio();
@@ -136,7 +136,7 @@ class BeritaController extends Controller
             return response()->json(['message' => 'Data not found'], 404);
         }
 
-        $image_path = public_path('uploads/laporan/') . "/" . $data->gambar;
+        $image_path = public_path('uploads/berita/') . "/" . $data->gambar;
         if (file_exists($image_path)) {
             unlink($image_path);
         }

@@ -20,13 +20,14 @@ class PolsekController extends Controller
 
         $data = Polsek::orderBy('created_at', 'DESC');
 
+
         if ($request->has('search')) {
             $data->where('nama_kecamatan', 'like', '%' . $request->search . '%');
         }
 
         return response()->json([
             'status' => 'success',
-            'result' => $data->paginate(10)
+            'result' => $data->paginate($request->limit ?? 10)
         ], 200);
     }
 

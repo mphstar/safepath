@@ -38,4 +38,20 @@ class HistoryController extends Controller
 
         return Excel::download(new HistoryExport(request()->status ?? ""), 'history.xlsx');
     }
+
+    public function getAllLaporanFinished(Request $request)
+    {
+        $data = Laporan::with(['user', 'detailKategori.kategori'])->where(function ($query) {
+            $query->where('status', 'disetujui');
+        })->orderBy('created_at', 'DESC');
+
+        if ($request->has('search')) {
+            $data->where('keterangan', 'like', '%' . $request->search . '%');
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'result' => $data->paginate($request->limit ?? 10)
+        ], 200);
+    }
 }

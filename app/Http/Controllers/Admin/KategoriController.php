@@ -27,7 +27,7 @@ class KategoriController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'result' => $data->paginate(10)
+            'result' => $data->paginate($request->limit ?? 10)
         ], 200);
     }
 
@@ -165,5 +165,24 @@ class KategoriController extends Controller
         $data->delete();
 
         return response()->json(['message' => 'Data deleted successfully'], 200);
+    }
+
+    public function getAllDetailKategori(Request $request)
+    {
+        $data = DetailKategori::with('kategori')->orderBy('created_at', 'DESC');
+
+        return response()->json([
+            'status' => 'success',
+            'result' => $data->paginate($request->limit ?? 10)
+        ], 200);
+    }
+    public function getAllKategori(Request $request)
+    {
+        $data = Kategori::orderBy('created_at', 'DESC');
+
+        return response()->json([
+            'status' => 'success',
+            'result' => $data->paginate($request->limit ?? 10)
+        ], 200);
     }
 }
