@@ -14,6 +14,12 @@ import { usePage } from "@inertiajs/react";
 const Dashboard = () => {
     const { laporan } = usePage().props;
 
+    const jemberBounds = [
+        [-8.552872005387782, 113.85786358974842], // Titik barat daya
+        [-7.946045199345399, 113.34974591471762], // Titik timur laut
+    ];
+
+
     return (
         <AdminLayout title="Dashboard" noPadding>
             <div className="w-full h-full relative">
@@ -21,6 +27,8 @@ const Dashboard = () => {
                     className="w-[100%] h-[100%] z-10"
                     center={[-8.17458474693488, 113.70135789730354]}
                     zoom={13}
+                    maxZoom={16}
+                    maxBounds={jemberBounds}
                     scrollWheelZoom={true}
                     zoomControl={false}
                 >
