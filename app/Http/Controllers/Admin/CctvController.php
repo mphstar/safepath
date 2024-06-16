@@ -26,7 +26,7 @@ class CctvController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'result' => $data->paginate(10)
+            'result' => $data->paginate($request->limit ?? 10)
         ], 200);
     }
 

@@ -9,6 +9,7 @@ use App\Models\UserPreference;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -159,5 +160,63 @@ class UserController extends Controller
         }
 
         return response()->json(['message' => 'Login success', 'data' => $user], 200);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'column' => 'required|in:nama,password,email,nohp,gambar',
+            'value' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()->first()], 400);
+        }
+
+        if ($request->column == 'gambar' && !$request->file("value")) {
+            return response()->json(['message' => 'Image is required'], 400);
+        }
+
+        if ($request->column == 'email') {
+            $validator = Validator::make($request->all(), [
+                'value' => 'required|max:50|email|unique:users,email, ' . $request->user_id,
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()->first()], 400);
+            }
+        }
+
+        $user = User::find($request->user_id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+
+        if ($request->file("value")) {
+            $image = $request->file('value');
+
+            $image_name = time() . '.' . $image->getClientOriginalExtension();
+
+            $path = public_path('uploads/profile/') . "/" . $image_name;
+
+            Image::make($image->getRealPath())->resize(700, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($path);
+
+            $user->{$request->column} = $image_name;
+        } else {
+
+            if ($request->column == 'password') {
+                $request['value'] = bcrypt($request->value);
+            }
+
+            $user->{$request->column} = $request->value;
+        }
+
+        $user->save();
+
+        return response()->json(['message' => 'Data updated successfully', 'data' => $user], 200);
     }
 }

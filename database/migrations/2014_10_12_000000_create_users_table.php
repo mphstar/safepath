@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->string('nohp', 13)->nullable();
+            $table->text('gambar')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
