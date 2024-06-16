@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\SosMail;
+use App\Models\Polsek;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -16,6 +17,7 @@ class SosController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'location' => 'required',
+            'kecamatan' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -30,10 +32,20 @@ class SosController extends Controller
             'pesan' => $user->userPreference->pesan,
         ];
 
-        foreach ($data["user"]->userPreference->contactPreference as $contact) {
+        $polsek = Polsek::where('nama_kecamatan', 'LIKE', '%' . $request->kecamatan . '%')->first();
+
+        foreach ($data["user"]->userPreference->contactPreference as $index => $contact) {
             // kirim email ke contact
             if ($contact->status == 1) {
-                Mail::to($contact->email)->send(new SosMail($data));
+                if ($index == 0) {
+                    if ($polsek) {
+                        Mail::to($polsek->kontak)->send(new SosMail($data));
+                    } else {
+                        Mail::to($contact->email)->send(new SosMail($data));
+                    }
+                } else {
+                    Mail::to($contact->email)->send(new SosMail($data));
+                }
             }
         }
 

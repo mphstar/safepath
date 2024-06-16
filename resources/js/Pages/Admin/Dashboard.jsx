@@ -27,6 +27,7 @@ const Dashboard = () => {
                     className="w-[100%] h-[100%] z-10"
                     center={[-8.17458474693488, 113.70135789730354]}
                     zoom={13}
+                    minZoom={12}
                     maxZoom={16}
                     maxBounds={jemberBounds}
                     scrollWheelZoom={true}

@@ -26,7 +26,7 @@ class LoginController extends Controller
                 "status" => "gagal",
                 "message" => $validator->errors()->first(),
                 null
-            ], 200, [
+            ], 400, [
                 ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']
             ]);
         }
@@ -38,6 +38,18 @@ class LoginController extends Controller
 
 
         if (Auth::attempt($data)) {
+
+            if(Auth::user()->role == 'user'){
+                Auth::logout();
+
+                return Response()->json([
+                    "status" => "gagal",
+                    "message" => "Anda tidak memiliki akses",
+                    null
+                ], 400, [
+                    ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']
+                ]);
+            }
 
             return Response()->json([
                 "status" => "berhasil",
@@ -52,7 +64,7 @@ class LoginController extends Controller
             "status" => "gagal",
             "message" => "Email atau Password Salah",
             null
-        ], 200, [
+        ], 400, [
             ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']
         ]);
     }

@@ -32,8 +32,9 @@ const Login = () => {
         // Tutup loading
         Swal.close();
 
-        if (res.ok) {
-            const result = await res.json();
+        const result = await res.json();
+
+        if (res.status == 200) {
             Swal.fire({
                 title: result.status == "berhasil" ? "Berhasil" : "Gagal",
                 text: result.message,
@@ -43,15 +44,14 @@ const Login = () => {
             if (result.status == "berhasil") {
                 location.href = "/admin";
             }
-            //   router.get('/')
         } else {
-            // Jika error server
             Swal.fire({
                 title: "Gagal",
-                text: "Gagal terhubung server",
+                text: result.message,
                 icon: "error",
             });
         }
+
     };
 
     return (
