@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\CctvController;
 use App\Http\Controllers\Admin\GrafikController;
 use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\Admin\KategoriController;
@@ -53,6 +54,13 @@ Route::prefix('v1')->group(function () {
             Route::put('/', [KategoriController::class, 'updateKategoriKecelakaan']);
             Route::delete('/', [KategoriController::class, 'deleteKategoriKecelakaan']);
         });
+    });
+
+    Route::prefix('cctv')->group(function () {
+        Route::get('/', [CctvController::class, 'getData']);
+        Route::post('/', [CctvController::class, 'storeCctv']);
+        Route::put('/', [CctvController::class, 'updateCctv']);
+        Route::delete('/', [CctvController::class, 'deleteCctv']);
     });
 
     Route::prefix('berita')->group(function () {
