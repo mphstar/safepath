@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Berita;
 use App\Models\DetailKategori;
 use App\Models\Kategori;
 use App\Models\Laporan;
@@ -104,5 +105,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Laporan::factory(50)->create();
+
+        Berita::factory(50)->create();
     }
 }

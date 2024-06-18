@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AdminLayout from "../../Components/Templates/AdminLayout";
 import {
     MapContainer,
@@ -10,6 +10,10 @@ import {
 import "leaflet/dist/leaflet.css";
 import ReactApexChart from "react-apexcharts";
 import { usePage } from "@inertiajs/react";
+import { FaCar } from "react-icons/fa";
+import { MdOutlineFilterAlt } from "react-icons/md";
+import CustomModal from "../../Components/Molecules/CustomModal";
+import useDashboard from "../../Stores/useDashboard";
 
 const Dashboard = () => {
     const { laporan } = usePage().props;
@@ -19,9 +23,22 @@ const Dashboard = () => {
         [-7.946045199345399, 113.34974591471762], // Titik timur laut
     ];
 
+    const iconCrime = new L.Icon({
+        iconUrl: "/assets/images/marker_kejahatan.png",
+        iconRetinaUrl: "/assets/images/marker_kejahatan.png",
+        iconSize: new L.Point(60, 60),
+    });
+    const iconKelakaan = new L.Icon({
+        iconUrl: "/assets/images/marker_kecelakaan.png",
+        iconRetinaUrl: "/assets/images/marker_kecelakaan.png",
+        iconSize: new L.Point(60, 60),
+    });
+
+    const store = useDashboard();
 
     return (
         <AdminLayout title="Dashboard" noPadding>
+            <ModalFilter />
             <div className="w-full h-full relative">
                 <MapContainer
                     className="w-[100%] h-[100%] z-10"
@@ -29,7 +46,7 @@ const Dashboard = () => {
                     zoom={13}
                     minZoom={12}
                     maxZoom={16}
-                    maxBounds={jemberBounds}
+                    // maxBounds={jemberBounds}
                     scrollWheelZoom={true}
                     zoomControl={false}
                 >
@@ -43,8 +60,23 @@ const Dashboard = () => {
                             const lat = item.lokasi.split(",")[0];
                             const long = item.lokasi.split(",")[1];
 
+                            if (
+                                !store.kategoriSelected.includes(
+                                    item.detail_kategori.nama
+                                )
+                            )
+                                return null;
+
                             return (
-                                <Marker key={i} position={[lat, long]}>
+                                <Marker
+                                    icon={
+                                        item.detail_kategori.kategori.id == 1
+                                            ? iconCrime
+                                            : iconKelakaan
+                                    }
+                                    key={i}
+                                    position={[lat, long]}
+                                >
                                     <Popup>
                                         <h1 className="font-semibold text-sm">
                                             {item.detail_kategori.kategori.nama}
@@ -63,8 +95,62 @@ const Dashboard = () => {
     );
 };
 
+const ModalFilter = () => {
+    const store = useDashboard();
+
+    const { laporan } = usePage().props;
+
+    const filtererKategoriDuplicate = laporan.map(
+        (item) => item.detail_kategori.nama
+    );
+
+    // hapus duplikat
+    const filtererKategori = filtererKategoriDuplicate.filter((item, index) => {
+        return filtererKategoriDuplicate.indexOf(item) === index;
+    });
+
+    useEffect(() => {
+        store.setKategoriSelected(filtererKategori);
+    }, []);
+
+    return (
+        <CustomModal
+            title={"Filter Kategori"}
+            show={store.showModalFilter}
+            setShow={store.handleModalFilter}
+        >
+            <div className="flex flex-row flex-wrap gap-3">
+                {filtererKategori.map((item, i) => (
+                    <label key={i} className="flex items-center">
+                        <input
+                            className="checkbox checkbox-xs"
+                            type="checkbox"
+                            value={item}
+                            onChange={() => store.handleCheckboxes(item)}
+                            checked={store.kategoriSelected.includes(item)}
+                            name=""
+                            id=""
+                        />
+                        <span className="ml-2">{item}</span>
+                    </label>
+                ))}
+            </div>
+            <div className="flex justify-end">
+                <button
+                    onClick={store.handleModalFilter}
+                    className="btn bg-slate-900  hover:bg-slate-950 mt-3 text-white w-fit"
+                >
+                    SAVE
+                </button>
+            </div>
+        </CustomModal>
+    );
+};
+
 const OverlayChart = () => {
     const { statistik, report, kategori } = usePage().props;
+
+    const store = useDashboard();
 
     const pieOptions = {
         series: kategori.map((item) => item.laporan_count),
@@ -72,6 +158,9 @@ const OverlayChart = () => {
             chart: {
                 width: 380,
                 type: "pie",
+            },
+            legend: {
+                show: false,
             },
             labels: kategori.map((item) => item.nama),
             responsive: [
@@ -164,7 +253,13 @@ const OverlayChart = () => {
     return (
         <div className="flex flex-col absolute top-0 left-0 w-full h-full z-20 pointer-events-none  justify-between px-4 py-3">
             <div className="flex flex-row gap-3 pointer-events-auto w-fit">
-                <div className="bg-white rounded-md border-2 pr-3">
+                <div
+                    onClick={store.handleModalFilter}
+                    className="bg-white rounded-md flex items-center border-2 p-3"
+                >
+                    <MdOutlineFilterAlt />
+                </div>
+                {/* <div className="bg-white rounded-md border-2 pr-3">
                     <select className="outline-none bg-transparent px-3 py-2">
                         <option name="">Jan</option>
                         <option name="">Feb</option>
@@ -179,9 +274,9 @@ const OverlayChart = () => {
                         <option name="">2022</option>
                         <option name="">2023</option>
                     </select>
-                </div>
+                </div> */}
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="md:grid grid-cols-3 gap-3 hidden">
                 <div className="bg-white border-2 h-[300px] rounded-md pointer-events-auto flex flex-col px-3 py-2">
                     <h1 className="font-semibold">Statistics</h1>
                     <div className="w-full h-full">

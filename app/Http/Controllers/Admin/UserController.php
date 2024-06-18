@@ -149,7 +149,7 @@ class UserController extends Controller
             return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()->first()], 400);
         }
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->where('role', 'user')->first();
 
         if (!$user) {
             return response()->json(['message' => 'Email or Password is incorrect'], 400);
