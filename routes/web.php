@@ -25,7 +25,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [BooksController::class, 'index']);
+Route::get('/', function () {
+    return redirect('/login');
+});
 
 Route::middleware(['guest'])->group(function () {
 

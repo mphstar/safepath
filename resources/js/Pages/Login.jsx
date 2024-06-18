@@ -1,4 +1,4 @@
-import { Link, router, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 
@@ -55,7 +55,9 @@ const Login = () => {
     };
 
     return (
+        
         <div className="flex flex-col h-screen w-screen items-center justify-center text-xs">
+            <Head title={"Login"} />
             <div className="w-screen h-screen object-cover fixed -z-20 bg-primary" />
             <div className="py-12 w-[90%] flex flex-col bg-white drop-shadow-2xl rounded-lg max-w-[520px] px-12 overflow-x-hidden overflow-y-auto scrollbar-hide my-4">
                 <div className="flex justify-center w-full items-center">
