@@ -19,13 +19,24 @@ class HistoryController extends Controller
     public function getData(Request $request)
     {
 
-        $data = Laporan::with(['user', 'detailKategori.kategori'])->where(function ($query) {
+        $data = Laporan::with(['user', 'detailKategori.kategori', 'polsek'])->where(function ($query) {
             $query->where('status', 'disetujui')->orWhere('status', 'ditolak');
         })->orderBy('created_at', 'DESC');
 
         if ($request->has('search')) {
-            $data->where('keterangan', 'like', '%' . $request->search . '%');
+            // $data->where('keterangan', 'like', '%' . $request->search . '%');
+            $data->whereHas('detailKategori', function ($query) use ($request) {
+                $query->where('nama', 'like', '%' . $request->search . '%');
+            });
         }
+        if ($request->has('filter')) {
+            // $data->where('keterangan', 'like', '%' . $request->search . '%');
+            if ($request->filter != "all") {
+                $data->where('status', $request->filter);
+            }
+        }
+
+
 
         return response()->json([
             'status' => 'success',

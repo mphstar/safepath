@@ -51,21 +51,21 @@ const Login = () => {
                 icon: "error",
             });
         }
-
     };
 
     return (
-        
         <div className="flex flex-col h-screen w-screen items-center justify-center text-xs">
             <Head title={"Login"} />
             <div className="w-screen h-screen object-cover fixed -z-20 bg-primary" />
             <div className="py-12 w-[90%] flex flex-col bg-white drop-shadow-2xl rounded-lg max-w-[520px] px-12 overflow-x-hidden overflow-y-auto scrollbar-hide my-4">
                 <div className="flex justify-center w-full items-center">
-                    <img
-                        className="w-8 "
-                        src="/assets/images/logo.png"
-                        alt=""
-                    />
+                    <div className="pr-4">
+                        <img
+                            className="w-8 "
+                            src="/assets/images/logo.png"
+                            alt=""
+                        />
+                    </div>
 
                     <div className="text-black border-l-2 border-primary pl-2  md:text-base">
                         <span className="text-primary">Safe</span>Path
@@ -79,7 +79,7 @@ const Login = () => {
                     <input
                         className="px-2 py-3 border-[1px] rounded-lg outline-none border-[#CECECE]"
                         type="text"
-                        placeholder="Email"
+                        placeholder="example@gmail.com"
                         name="Email"
                         value={dataLogin.email}
                         onChange={(e) =>
@@ -106,7 +106,7 @@ const Login = () => {
                                 })
                             }
                             type={showPassword ? "text" : "password"}
-                            placeholder="Password"
+                            placeholder="Enter password"
                             id="password"
                         />
                         <div

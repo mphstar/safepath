@@ -168,7 +168,7 @@ const Grafik = () => {
     }, []);
 
     return (
-        <AdminLayout title="Grafik">
+        <AdminLayout title="Infographic">
             <div className="w-full h-full flex flex-col px-3 py-4">
                 <div className="flex flex-row items-center gap-3">
                     <div>Filter Tahun</div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AdminLayout from "../../Components/Templates/AdminLayout";
 import NoDataTable from "../../Components/Molecules/NoDataTable";
-import { FaEdit, FaInfo, FaTrash } from "react-icons/fa";
+import { FaArrowDown, FaEdit, FaInfo, FaTrash } from "react-icons/fa";
 import Pagination from "../../Components/Molecules/Pagination";
 import CustomModal from "../../Components/Molecules/CustomModal";
 import { fetcher } from "../../Utils/Fetcher";
@@ -24,10 +24,12 @@ const History = () => {
     const store = useHistory();
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
+    const [filter, setFilter] = useState("all");
     const URL = GenerateUrl(
         "/api/v1/history",
         `page=${page}`,
-        `search=${encodeURIComponent(search)}`
+        `search=${encodeURIComponent(search)}`,
+        `filter=${filter}`
     );
     const { data, error, isLoading } = useSWR(URL, fetcher);
 
@@ -67,7 +69,21 @@ const History = () => {
                             />
                         </svg>
                     </label>
-                    <div className="flex flex-row">
+                    <div className="flex flex-row gap-2">
+                        <div className="border-2 relative rounded-md">
+                            <select
+                                className="appearance-none h-full px-2 pr-8"
+                                name=""
+                                value={filter}
+                                onChange={(e) => setFilter(e.target.value)}
+                                id=""
+                            >
+                                <option value="all">All</option>
+                                <option value="ditolak">Ditolak</option>
+                                <option value="disetujui">Disetujui</option>
+                            </select>
+                            <FaArrowDown size={12} className="absolute top-0 right-2 h-full" />
+                        </div>
                         <a href="/admin/history/export?status=history">
                             <button className="btn bg-green-500 hover:bg-green-600 px-3 py-2 text-white">
                                 Export
@@ -94,7 +110,7 @@ const History = () => {
                                             <th>Pengirim</th>
                                             <th>Kategori</th>
                                             <th>No HP</th>
-                                            <th>Lokasi</th>
+                                            <th>Kecamatan</th>
                                             <th>Status</th>
                                             <th>Created At</th>
                                             <th>Aksi</th>
@@ -139,7 +155,9 @@ const History = () => {
                                                     </div>
                                                 </td>
                                                 <td>{item.user.nohp}</td>
-                                                <td>{item.lokasi}</td>
+                                                <td>
+                                                    {item.polsek.nama_kecamatan}
+                                                </td>
                                                 <td>
                                                     <div
                                                         className={`text-xs px-3 py-1 rounded-md w-fit ${
@@ -250,9 +268,20 @@ const DetailModal = ({ URL }) => {
                             <p>{store.itemSelected.detail_kategori.nama}</p>
                         </div>
                         <div className="flex flex-row">
+                            <p className="w-[100px] truncate">Kecamatan</p>
+                            <p className="px-2">:</p>
+                            <p>{store.itemSelected.polsek.nama_kecamatan}</p>
+                        </div>
+                        <div className="flex flex-row">
                             <p className="w-[100px] truncate">Lokasi</p>
                             <p className="px-2">:</p>
-                            <p>{store.itemSelected.lokasi}</p>
+                            <a
+                                className="text-blue-500"
+                                target="_blank"
+                                href={`http://maps.google.com?q=${store.itemSelected.lokasi}`}
+                            >
+                                Klik disini
+                            </a>
                         </div>
 
                         <p className="my-4 font-semibold">Gambar</p>

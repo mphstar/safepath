@@ -92,7 +92,7 @@ const ConfirmReport = () => {
                                             <th>Pengirim</th>
                                             <th>Kategori</th>
                                             <th>No HP</th>
-                                            <th>Lokasi</th>
+                                            <th>Kecamatan</th>
                                             <th>Created At</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -136,7 +136,7 @@ const ConfirmReport = () => {
                                                     </div>
                                                 </td>
                                                 <td>{item.user.nohp}</td>
-                                                <td>{item.lokasi}</td>
+                                                <td>{item.polsek.nama_kecamatan}</td>
                                                 <td>
                                                     {new Date(
                                                         item.created_at
@@ -285,9 +285,16 @@ const DetailModal = ({ URL }) => {
                             <p>{store.itemSelected.detail_kategori.nama}</p>
                         </div>
                         <div className="flex flex-row">
+                            <p className="w-[100px] truncate">Kecamatan</p>
+                            <p className="px-2">:</p>
+                            <p>{store.itemSelected.polsek.nama_kecamatan}</p>
+                        </div>
+                        <div className="flex flex-row">
                             <p className="w-[100px] truncate">Lokasi</p>
                             <p className="px-2">:</p>
-                            <p>{store.itemSelected.lokasi}</p>
+                            <a className="text-blue-500" target="_blank" href={`http://maps.google.com?q=${store.itemSelected.lokasi}`}>
+                                Klik disini
+                            </a>
                         </div>
 
                         <p className="my-4 font-semibold">Gambar</p>

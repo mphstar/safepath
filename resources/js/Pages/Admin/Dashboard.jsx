@@ -119,6 +119,21 @@ const ModalFilter = () => {
             show={store.showModalFilter}
             setShow={store.handleModalFilter}
         >
+            <div>
+                {" "}
+                <label className="flex items-center">
+                    <input
+                        className="checkbox checkbox-xs"
+                        type="checkbox"
+                        value="All"
+                        onChange={() => store.handleAllCheckboxes(filtererKategori)}
+                        checked={store.kategoriSelected.length === filtererKategori.length}
+                        name=""
+                        id=""
+                    />
+                    <span className="ml-2">Check All</span>
+                </label>
+            </div>
             <div className="flex flex-row flex-wrap gap-3">
                 {filtererKategori.map((item, i) => (
                     <label key={i} className="flex items-center">

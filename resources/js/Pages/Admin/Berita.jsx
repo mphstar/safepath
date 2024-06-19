@@ -39,7 +39,7 @@ const Berita = () => {
     };
 
     return (
-        <AdminLayout title="Berita">
+        <AdminLayout title="News">
             <MyModal URL={URL} />
             <DetailModal />
             <div className="w-full h-full flex flex-col px-3 py-4">
@@ -141,7 +141,7 @@ const Berita = () => {
                                                                         item.deskripsi,
                                                                     penulis:
                                                                         item.penulis,
-                                                                    gambar: `/uploads/laporan/${item.gambar}`,
+                                                                    gambar: `/uploads/berita/${item.gambar}`,
                                                                 });
 
                                                                 store.handleModal();
@@ -202,7 +202,7 @@ const DetailModal = () => {
                 <div className="flex flex-col mt-2">
                     <img
                         className="h-[200px] mb-4 rounded-md"
-                        src={`/uploads/laporan/${store.itemSelected.gambar}`}
+                        src={`/uploads/berita/${store.itemSelected.gambar}`}
                         alt="Image"
                     />
                     <h1 className="font-semibold text-lg">

@@ -23,7 +23,7 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                         <div className="w-10">
                             <img src="/assets/images/logo.png" alt="Logo" />
                         </div>
-                        <div className="text-black border-l-2 border-primary pl-2 text-[20px] md:text-base flex-1">
+                        <div className="text-black border-l-2 border-primary pl-2 md:text-base flex-1">
                             <span className="text-primary">Safe</span>Path
                         </div>
                     </span>
@@ -51,7 +51,7 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     href="/admin/polsek"
                 />
                 <SidebarItem
-                    title="Kategori"
+                    title="Category"
                     icon={<LuBuilding />}
                     active={active == "Kejahatan" || active == "Kecelakaan"}
                     href="/admin/kategori/kejahatan"
@@ -72,17 +72,17 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     href="/admin/confirm-report"
                 />
                 <SidebarItem
-                    title="Berita"
+                    title="News"
                     icon={<RiNewsLine />}
-                    active={active == "Berita"}
+                    active={active == "News"}
                     href="/admin/berita"
                 />
 
                 <p className="text-gray-400 text-sm py-2 mt-6">Report</p>
                 <SidebarItem
-                    title="Grafik"
+                    title="Infographic"
                     icon={<FaChartColumn />}
-                    active={active == "Grafik"}
+                    active={active == "Infographic"}
                     href="/admin/grafik"
                 />
                 <SidebarItem

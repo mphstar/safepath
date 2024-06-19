@@ -19,6 +19,16 @@ const useDashboard = create((set) => ({
         }
         useDashboard.setState({ kategoriSelected });
     },
+
+    handleAllCheckboxes: (kategori) => {
+        let kategoriSelected = [...useDashboard.getState().kategoriSelected];
+        if (kategoriSelected.length > 0) {
+            kategoriSelected = [];
+        } else {
+            kategoriSelected = kategori;
+        }
+        useDashboard.setState({ kategoriSelected });
+    },
 }));
 
 export default useDashboard;

@@ -19,10 +19,13 @@ class ReportController extends Controller
     public function getDataConfirmReport(Request $request)
     {
 
-        $data = Laporan::with(['user', 'detailKategori.kategori'])->where('status', 'menunggu')->orderBy('created_at', 'DESC');
+        $data = Laporan::with(['user', 'detailKategori.kategori', 'polsek'])->where('status', 'menunggu')->orderBy('created_at', 'DESC');
 
         if ($request->has('search')) {
-            $data->where('keterangan', 'like', '%' . $request->search . '%');
+            // $data->where('keterangan', 'like', '%' . $request->search . '%');
+            $data->whereHas('detailKategori', function ($query) use ($request) {
+                $query->where('nama', 'like', '%' . $request->search . '%');
+            });
         }
 
         return response()->json([
@@ -127,7 +130,4 @@ class ReportController extends Controller
 
         return response()->json(['message' => 'Data berhasil di tambahkan', 'data' => $data], 200);
     }
-
-
-    
 }
