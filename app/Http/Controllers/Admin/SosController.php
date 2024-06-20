@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\SosMail;
 use App\Models\Polsek;
+use App\Models\Sos;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -31,6 +32,17 @@ class SosController extends Controller
             'location' => $request->location,
             'pesan' => $user->userPreference->pesan,
         ];
+
+        // split koordinate to latitude and longitude
+        $koordinate = explode(",", $request->location);
+        $latitude = $koordinate[0];
+        $longitude = $koordinate[1];
+
+        $sos = Sos::create([
+            'user_id' => $request->user_id,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+        ]);
 
         $polsek = Polsek::where('nama_kecamatan', 'LIKE', '%' . $request->kecamatan . '%')->first();
 

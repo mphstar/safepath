@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Laporan;
+use App\Models\Sos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -129,5 +130,59 @@ class ReportController extends Controller
         $data->save();
 
         return response()->json(['message' => 'Data berhasil di tambahkan', 'data' => $data], 200);
+    }
+
+    function getDistanceBetweenPoints($lat1, $lon1, $lat2, $lon2)
+    {
+        $theta = $lon1 - $lon2;
+        $miles = (sin(deg2rad($lat1)) * sin(deg2rad($lat2))) + (cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta)));
+        $miles = acos($miles);
+        $miles = rad2deg($miles);
+        $miles = $miles * 60 * 1.1515;
+        $feet = $miles * 5280;
+        $yards = $feet / 3;
+        $kilometers = $miles * 1.609344;
+        $meters = $kilometers * 1000;
+        return compact('miles', 'feet', 'yards', 'kilometers', 'meters');
+    }
+
+    public function getRadar(Request $request)
+    {
+
+        $validator = Validator::make(request()->all(), [
+            'latitude' => 'required',
+            'longitude' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()->first()], 400);
+        }
+
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
+
+        $result = [];
+
+        // tampilkan data sos 1 jam lalu dari sekarang
+        $sos = Sos::where('created_at', '>=', now()->subHour())->get();
+
+        foreach ($sos as $item) {
+            $latitudeTo = $item->latitude;
+            $longtitudeTo = $item->longitude;
+
+            $distance = $this->getDistanceBetweenPoints($latitude, $longitude, $latitudeTo, $longtitudeTo);
+
+            if ($distance['meters'] <= 2000) {
+                $result[] = array(
+                    'koordinat' => $item->latitude . ',' . $item->longitude,
+                    'distance' => $distance['meters'] . ' meter'
+                );
+            }
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'result' => $result
+        ], 200);
     }
 }

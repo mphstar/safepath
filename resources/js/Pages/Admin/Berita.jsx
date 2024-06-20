@@ -39,7 +39,7 @@ const Berita = () => {
     };
 
     return (
-        <AdminLayout title="News">
+        <AdminLayout title="Berita">
             <MyModal URL={URL} />
             <DetailModal />
             <div className="w-full h-full flex flex-col px-3 py-4">
@@ -48,7 +48,7 @@ const Berita = () => {
                         <input
                             type="text"
                             className="w-full"
-                            placeholder="Search"
+                            placeholder="Cari"
                             onChange={handleChangeSearch}
                         />
                         <svg
@@ -72,7 +72,7 @@ const Berita = () => {
                             }}
                             className="btn bg-[#52C12C] text-white hover:bg-green-500 w-fit"
                         >
-                            <p className="flex">Add</p>
+                            <p className="flex">Tambah</p>
                         </button>
                     </div>
                 </div>
@@ -95,7 +95,7 @@ const Berita = () => {
                                             <th>Judul</th>
                                             <th>Deskripsi</th>
                                             <th>Penulis</th>
-                                            <th>Created At</th>
+                                            <th>Tanggal</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>

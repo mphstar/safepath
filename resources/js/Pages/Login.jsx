@@ -79,7 +79,7 @@ const Login = () => {
                     <input
                         className="px-2 py-3 border-[1px] rounded-lg outline-none border-[#CECECE]"
                         type="text"
-                        placeholder="example@gmail.com"
+                        placeholder="contoh@gmail.com"
                         name="Email"
                         value={dataLogin.email}
                         onChange={(e) =>
@@ -106,7 +106,7 @@ const Login = () => {
                                 })
                             }
                             type={showPassword ? "text" : "password"}
-                            placeholder="Enter password"
+                            placeholder="Masukkan password"
                             id="password"
                         />
                         <div

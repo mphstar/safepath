@@ -37,7 +37,7 @@ const User = () => {
     };
 
     return (
-        <AdminLayout title="User">
+        <AdminLayout title="Admin">
             <MyModal URL={URL} />
             <div className="w-full h-full flex flex-col px-3 py-4">
                 <div className="flex items-center w-full gap-4 mb-3">
@@ -45,7 +45,7 @@ const User = () => {
                         <input
                             type="text"
                             className="w-full"
-                            placeholder="Search"
+                            placeholder="Cari"
                             onChange={handleChangeSearch}
                         />
                         <svg
@@ -69,7 +69,7 @@ const User = () => {
                             }}
                             className="btn bg-[#52C12C] text-white hover:bg-green-500 w-fit"
                         >
-                            <p className="flex">Add</p>
+                            <p className="flex">Tambah</p>
                         </button>
                     </div>
                 </div>
@@ -89,9 +89,9 @@ const User = () => {
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th>Name</th>
+                                            <th>Nama</th>
                                             <th>Email</th>
-                                            <th>Created At</th>
+                                            <th>Tanggal</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>

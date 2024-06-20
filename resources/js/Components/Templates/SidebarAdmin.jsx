@@ -37,11 +37,11 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     href="/admin"
                 />
 
-                <p className="text-gray-400 text-sm py-2 mt-6">Master Data</p>
+                <p className="text-gray-400 text-sm py-2 mt-6">Data</p>
                 <SidebarItem
-                    title="User"
+                    title="Admin"
                     icon={<FaUser />}
-                    active={active == "User"}
+                    active={active == "Admin"}
                     href="/admin/user"
                 />
                 <SidebarItem
@@ -51,7 +51,7 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     href="/admin/polsek"
                 />
                 <SidebarItem
-                    title="Category"
+                    title="Kategori"
                     icon={<LuBuilding />}
                     active={active == "Kejahatan" || active == "Kecelakaan"}
                     href="/admin/kategori/kejahatan"
@@ -64,31 +64,31 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     href="/admin/cctv"
                 />
 
-                <p className="text-gray-400 text-sm py-2 mt-6">Services</p>
+                <p className="text-gray-400 text-sm py-2 mt-6">Layanan</p>
                 <SidebarItem
-                    title="Confirm Report"
+                    title="Konfirmasi Laporan"
                     icon={<TbReportSearch />}
-                    active={active == "Confirm Report"}
+                    active={active == "Konfirmasi Laporan"}
                     href="/admin/confirm-report"
                 />
                 <SidebarItem
-                    title="News"
+                    title="Berita"
                     icon={<RiNewsLine />}
-                    active={active == "News"}
+                    active={active == "Berita"}
                     href="/admin/berita"
                 />
 
-                <p className="text-gray-400 text-sm py-2 mt-6">Report</p>
+                <p className="text-gray-400 text-sm py-2 mt-6">Laporan</p>
                 <SidebarItem
-                    title="Infographic"
+                    title="Infografik"
                     icon={<FaChartColumn />}
-                    active={active == "Infographic"}
+                    active={active == "Infografik"}
                     href="/admin/grafik"
                 />
                 <SidebarItem
-                    title="History Report"
+                    title="Riwayat Laporan"
                     icon={<MdHistory />}
-                    active={active == "History"}
+                    active={active == "Riwayat"}
                     href="/admin/history"
                 />
             </div>

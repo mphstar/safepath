@@ -40,7 +40,7 @@ const ConfirmReport = () => {
     };
 
     return (
-        <AdminLayout title="Confirm Report">
+        <AdminLayout title="Konfirmasi Laporan">
             <DetailModal URL={URL} />
 
             <div className="w-full h-full flex flex-col px-3 py-4">
@@ -49,7 +49,7 @@ const ConfirmReport = () => {
                         <input
                             type="text"
                             className="w-full"
-                            placeholder="Search"
+                            placeholder="Cari"
                             onChange={handleChangeSearch}
                         />
                         <svg
@@ -93,7 +93,7 @@ const ConfirmReport = () => {
                                             <th>Kategori</th>
                                             <th>No HP</th>
                                             <th>Kecamatan</th>
-                                            <th>Created At</th>
+                                            <th>Tanggal</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>

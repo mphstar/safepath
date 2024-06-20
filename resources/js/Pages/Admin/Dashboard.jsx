@@ -131,7 +131,7 @@ const ModalFilter = () => {
                         name=""
                         id=""
                     />
-                    <span className="ml-2">Check All</span>
+                    <span className="ml-2">Pilih Semua</span>
                 </label>
             </div>
             <div className="flex flex-row flex-wrap gap-3">
@@ -293,7 +293,7 @@ const OverlayChart = () => {
             </div>
             <div className="md:grid grid-cols-3 gap-3 hidden">
                 <div className="bg-white border-2 h-[300px] rounded-md pointer-events-auto flex flex-col px-3 py-2">
-                    <h1 className="font-semibold">Statistics</h1>
+                    <h1 className="font-semibold">Statistik</h1>
                     <div className="w-full h-full">
                         <ReactApexChart
                             options={chartOptions}
@@ -304,7 +304,7 @@ const OverlayChart = () => {
                     </div>
                 </div>
                 <div className="bg-white border-2 h-[300px] rounded-md pointer-events-auto flex flex-col px-3 py-2">
-                    <h1 className="font-semibold">Report</h1>
+                    <h1 className="font-semibold">Laporan</h1>
                     <div className="w-full h-full">
                         <ReactApexChart
                             options={chartBarOptions}
@@ -315,7 +315,7 @@ const OverlayChart = () => {
                     </div>
                 </div>
                 <div className="bg-white border-2 h-[300px] rounded-md pointer-events-auto flex flex-col px-3 py-2">
-                    <h1 className="font-semibold">Crime & Accident</h1>
+                    <h1 className="font-semibold">Kejahatan & Kecelakaan</h1>
                     <div className="w-full h-full py-3 ">
                         <ReactApexChart
                             options={pieOptions.options}

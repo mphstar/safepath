@@ -1,24 +1,15 @@
 import React, { useState } from "react";
 import AdminLayout from "../../Components/Templates/AdminLayout";
 import NoDataTable from "../../Components/Molecules/NoDataTable";
-import { FaArrowDown, FaEdit, FaInfo, FaTrash } from "react-icons/fa";
+import { FaArrowDown } from "react-icons/fa";
 import Pagination from "../../Components/Molecules/Pagination";
 import CustomModal from "../../Components/Molecules/CustomModal";
 import { fetcher } from "../../Utils/Fetcher";
-import useSWR, { mutate } from "swr";
-import useUser from "../../Stores/useUser";
+import useSWR from "swr";
 import GenerateUrl from "../../Utils/GenerateUrl";
 import { debounce } from "../../Utils/Debounce";
-import { IoEye, IoEyeOff } from "react-icons/io5";
-import Swal from "sweetalert2";
-import HitApi from "../../Utils/HitApi";
-import DeleteData from "../../Utils/DeleteData";
-import usePolsek from "../../Stores/usePolsek";
-import useBerita from "../../Stores/useBerita";
-import { MdInfoOutline, MdOutlineCloudUpload } from "react-icons/md";
-import useConfirmReport from "../../Stores/useConfirmReport";
+import { MdInfoOutline } from "react-icons/md";
 import useHistory from "../../Stores/useHistory";
-import { Link } from "@inertiajs/react";
 
 const History = () => {
     const store = useHistory();
@@ -44,7 +35,7 @@ const History = () => {
     };
 
     return (
-        <AdminLayout title="History">
+        <AdminLayout title="Riwayat">
             <DetailModal URL={URL} />
 
             <div className="w-full h-full flex flex-col px-3 py-4">
@@ -53,7 +44,7 @@ const History = () => {
                         <input
                             type="text"
                             className="w-full"
-                            placeholder="Search"
+                            placeholder="Cari"
                             onChange={handleChangeSearch}
                         />
                         <svg
@@ -78,7 +69,7 @@ const History = () => {
                                 onChange={(e) => setFilter(e.target.value)}
                                 id=""
                             >
-                                <option value="all">All</option>
+                                <option value="all">Semua</option>
                                 <option value="ditolak">Ditolak</option>
                                 <option value="disetujui">Disetujui</option>
                             </select>
