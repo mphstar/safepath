@@ -112,4 +112,5 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::post('/radar', [ReportController::class, 'getRadar']);
+    Route::get('/sos', [SosController::class, 'getData']);
 });

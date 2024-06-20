@@ -15,4 +15,10 @@ class Sos extends Model
 
     // fillable mendevinisikan field mana saja yang dapat kita isikan
     protected $guarded = [];
+
+    // relasi ke user
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

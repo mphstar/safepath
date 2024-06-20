@@ -10,9 +10,37 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
+use Spatie\Geocoder\Geocoder;
 
 class SosController extends Controller
 {
+    public function index()
+    {
+        return Inertia::render('Admin/Sos');
+    }
+
+    public function getData(Request $request)
+    {
+
+        $data = Sos::with(['user'])->orderBy('created_at', 'DESC');
+
+        if ($request->has('search')) {
+            // $data->where('keterangan', 'like', '%' . $request->search . '%');
+            $data->whereHas('user', function ($query) use ($request) {
+                $query->where('nama', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $data = $data->paginate(10);
+
+
+        return response()->json([
+            'status' => 'success',
+            'result' => $data,
+        ], 200);
+    }
+
     public function sendSos(Request $request)
     {
         $validator = Validator::make($request->all(), [

@@ -5,7 +5,7 @@ import { FaBookOpenReader, FaChartColumn } from "react-icons/fa6";
 import { LuBuilding } from "react-icons/lu";
 
 import { BiCctv } from "react-icons/bi";
-import { MdHistory } from "react-icons/md";
+import { MdHistory, MdReport } from "react-icons/md";
 import { RiNewsLine } from "react-icons/ri";
 import { TbBuildingCommunity, TbReportSearch } from "react-icons/tb";
 
@@ -90,6 +90,12 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     icon={<MdHistory />}
                     active={active == "Riwayat"}
                     href="/admin/history"
+                />
+                <SidebarItem
+                    title="Laporan Darurat"
+                    icon={<MdReport />}
+                    active={active == "Laporan Darurat"}
+                    href="/admin/sos"
                 />
             </div>
             <div

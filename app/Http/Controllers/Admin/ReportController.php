@@ -163,8 +163,8 @@ class ReportController extends Controller
 
         $result = [];
 
-        // tampilkan data sos 1 jam lalu dari sekarang
-        $sos = Sos::where('created_at', '>=', now()->subHour())->get();
+        // tampilkan data sos 2 hari lalu dari sekarang
+        $sos = Sos::where('created_at', '>=', now()->subDays(2))->get();
 
         foreach ($sos as $item) {
             $latitudeTo = $item->latitude;
