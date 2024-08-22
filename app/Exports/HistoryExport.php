@@ -25,33 +25,47 @@ class HistoryExport implements FromCollection, WithStyles, ShouldAutoSize
     public function collection()
     {
         if ($this->status == 'history') {
-            $data = Laporan::with(['user', 'detailKategori.kategori'])->where(function ($query) {
+            $data = Laporan::with(['user', 'polsek', 'detailKategori.kategori'])->where(function ($query) {
                 $query->where('status', 'disetujui')->orWhere('status', 'ditolak');
             })->get();
         } else {
-            $data = Laporan::with(['user', 'detailKategori.kategori'])->where(function ($query) {
+            $data = Laporan::with(['user', 'polsek', 'detailKategori.kategori'])->where(function ($query) {
                 $query->where('status', 'menunggu');
             })->get();
         }
 
+
+
         $column = [
             'No',
             'Nama Pelapor',
-            'Kategori Kejahatan',
+            'ID Kategori',
             'Detail Kategori',
+            'ID Kecamatan',
+            'Kecamatan',
             'Keterangan',
+            'Latitude',
+            'Longitude',
             'Status',
             'Tanggal'
         ];
         $formatData = [];
 
         foreach ($data as $key => $value) {
+            $koordinate = explode(",", $value->lokasi);
+            $latitude = $koordinate[0];
+            $longitude = $koordinate[1];
+
             $formatData[] = [
                 $key + 1,
                 $value->user->name,
-                $value->detailKategori->kategori->nama,
+                $value->detailKategori->id,
                 $value->detailKategori->nama,
+                $value->polsek->id,
+                $value->polsek->nama_kecamatan,
                 $value->keterangan,
+                $latitude,
+                $longitude,
                 $value->status,
                 $value->created_at->format('d-m-Y') ?? ""
             ];

@@ -7,7 +7,7 @@ import { LuBuilding } from "react-icons/lu";
 import { BiCctv } from "react-icons/bi";
 import { MdHistory, MdReport } from "react-icons/md";
 import { RiNewsLine } from "react-icons/ri";
-import { TbBuildingCommunity, TbReportSearch } from "react-icons/tb";
+import { TbBuildingCommunity, TbDatabaseExport, TbReportSearch } from "react-icons/tb";
 
 const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
     return (
@@ -86,8 +86,8 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     href="/admin/grafik"
                 />
                 <SidebarItem
-                    title="Riwayat Laporan"
-                    icon={<MdHistory />}
+                    title="Data Laporan"
+                    icon={<TbDatabaseExport />}
                     active={active == "Riwayat"}
                     href="/admin/history"
                 />

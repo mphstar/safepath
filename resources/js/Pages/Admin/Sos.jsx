@@ -77,6 +77,7 @@ const Sos = () => {
                                             <th></th>
                                             <th>Pengirim</th>
                                             <th>No HP</th>
+                                            <th>Keterangan Lokasi</th>
                                             <th>Lokasi</th>
                                             <th>Tanggal</th>
                                         </tr>
@@ -102,6 +103,7 @@ const Sos = () => {
                                                 </td>
 
                                                 <td>{item.user.nohp}</td>
+                                                <td>{item.detail_lokasi}</td>
                                                 <td>
                                                     <a className="text-blue-500"
                                                         target="_blank"

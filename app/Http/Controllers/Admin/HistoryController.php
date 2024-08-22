@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\HistoryExport;
 use App\Http\Controllers\Controller;
+use App\Imports\LaporanImport;
 use App\Models\Laporan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -13,7 +16,9 @@ class HistoryController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/History');
+        return Inertia::render('Admin/History', [
+            'auth' => Auth::user()
+        ]);
     }
 
     public function getData(Request $request)
@@ -41,6 +46,25 @@ class HistoryController extends Controller
         return response()->json([
             'status' => 'success',
             'result' => $data->paginate(10)
+        ], 200);
+    }
+
+    public function importLaporan(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'file' => 'required|mimes:xlsx,xls'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', $validator->errors()->first());
+        }
+
+        Excel::import(new LaporanImport($request->user_id), $request->file('file'));
+
+        return response()->json([
+            'status' => 'success',
+            'result' => 'Data berhasil di import'
         ], 200);
     }
 

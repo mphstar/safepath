@@ -7,7 +7,9 @@ use App\Mail\SosMail;
 use App\Models\Polsek;
 use App\Models\Sos;
 use App\Models\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -66,10 +68,23 @@ class SosController extends Controller
         $latitude = $koordinate[0];
         $longitude = $koordinate[1];
 
+        $detailLokasi = "-";
+        try {
+            //code...
+            $client = new Client();
+            $response = $client->request('GET', 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' . $latitude . '&lon=' . $longitude);
+            $result = json_decode($response->getBody(), true);
+
+            $detailLokasi = $result['display_name'];
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
         $sos = Sos::create([
             'user_id' => $request->user_id,
             'latitude' => $latitude,
             'longitude' => $longitude,
+            'detail_lokasi' => $detailLokasi,
         ]);
 
         $polsek = Polsek::where('nama_kecamatan', 'LIKE', '%' . $request->kecamatan . '%')->first();

@@ -101,6 +101,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/kategori', [KategoriController::class, 'getAllKategori']);
 
     Route::get('/laporan', [HistoryController::class, 'getAllLaporanFinished']);
+    Route::post('/laporan/import', [HistoryController::class, 'importLaporan']);
 
     Route::post('/preference', [PreferenceController::class, 'getData']);
     Route::post('/preference/update', [PreferenceController::class, 'updateData']);

@@ -5,11 +5,14 @@ import { FaArrowDown } from "react-icons/fa";
 import Pagination from "../../Components/Molecules/Pagination";
 import CustomModal from "../../Components/Molecules/CustomModal";
 import { fetcher } from "../../Utils/Fetcher";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import GenerateUrl from "../../Utils/GenerateUrl";
 import { debounce } from "../../Utils/Debounce";
 import { MdInfoOutline } from "react-icons/md";
 import useHistory from "../../Stores/useHistory";
+import HitApi from "../../Utils/HitApi";
+import { usePage } from "@inertiajs/react";
+import Swal from "sweetalert2";
 
 const History = () => {
     const store = useHistory();
@@ -35,12 +38,13 @@ const History = () => {
     };
 
     return (
-        <AdminLayout title="Riwayat">
+        <AdminLayout title="Data Laporan">
             <DetailModal URL={URL} />
+            <FormImport url={URL} />
 
             <div className="w-full h-full flex flex-col px-3 py-4">
-                <div className="flex items-center justify-between w-full gap-4 mb-3">
-                    <label className="input input-bordered flex w-full items-center gap-2 max-w-[200px] md:max-w-[300px]">
+                <div className="flex flex-col md:flex-row items-center justify-between w-full gap-4 mb-3">
+                    <label className="input input-bordered flex w-full items-center gap-2  md:max-w-[300px]">
                         <input
                             type="text"
                             className="w-full"
@@ -60,8 +64,8 @@ const History = () => {
                             />
                         </svg>
                     </label>
-                    <div className="flex flex-row gap-2">
-                        <div className="border-2 relative rounded-md">
+                    <div className="flex flex-row gap-2 w-full md:w-fit">
+                        <div className="border-2 relative rounded-md w-full md:w-fit">
                             <select
                                 className="appearance-none h-full px-2 pr-8"
                                 name=""
@@ -73,10 +77,19 @@ const History = () => {
                                 <option value="ditolak">Ditolak</option>
                                 <option value="disetujui">Disetujui</option>
                             </select>
-                            <FaArrowDown size={12} className="absolute top-0 right-2 h-full" />
+                            <FaArrowDown
+                                size={12}
+                                className="absolute top-0 right-2 h-full"
+                            />
                         </div>
+                        <button
+                            onClick={() => store.handleFormImport()}
+                            className="btn bg-orange-500 hover:bg-orange-600 px-3 py-2 text-white"
+                        >
+                            Import
+                        </button>
                         <a href="/admin/history/export?status=history">
-                            <button className="btn bg-green-500 hover:bg-green-600 px-3 py-2 text-white">
+                            <button className="btn bg-blue-500 hover:bg-blue-600 px-3 py-2 text-white">
                                 Export
                             </button>
                         </a>
@@ -200,6 +213,77 @@ const History = () => {
                 </NoDataTable>
             </div>
         </AdminLayout>
+    );
+};
+
+const FormImport = ({ url }) => {
+    const store = useHistory();
+    const [file, setFile] = useState();
+
+    const { props } = usePage();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        Swal.fire({
+            title: "Loading",
+            html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+            allowOutsideClick: false,
+            showConfirmButton: false,
+        });
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("user_id", props.auth.id);
+
+        HitApi({
+            url: "/api/v1/laporan/import",
+            method: "POST",
+            body: formData,
+            isFormData: true,
+            onSuccess: () => {
+                Swal.fire("Berhasil", "Data berhasil diimport", "success");
+
+                setFile(null);
+                store.handleFormImport();
+                mutate(url);
+            },
+            onError: () => {
+                console.log("Error");
+            },
+            onFinally: () => {
+                // Swal.close();
+            },
+        });
+    };
+    return (
+        <CustomModal
+            show={store.formImport}
+            setShow={() => store.handleFormImport()}
+            title={"Import Data"}
+        >
+            <form onSubmit={handleSubmit} action="">
+                <div className="flex flex-col gap-4">
+                    {/* <p className="text-sm text-gray-400">
+                        Import data laporan dengan format excel
+                    </p> */}
+                    <p className="text-sm text-gray-400">
+                        Unduh contoh laporan seperti pada format{" "}
+                        <a className="text-blue-500 text-sm" href="#">
+                            berikut
+                        </a>
+                    </p>
+                    <input
+                        type="file"
+                        onChange={(e) => setFile(e.target.files[0])}
+                        className="file-input file-input-bordered"
+                    />
+                    <button className="btn bg-blue-500 hover:bg-blue-600 text-white">
+                        Import
+                    </button>
+                </div>
+            </form>
+        </CustomModal>
     );
 };
 

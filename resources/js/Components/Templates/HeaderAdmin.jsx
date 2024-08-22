@@ -1,5 +1,6 @@
 import { Link } from "@inertiajs/react";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { FaUser } from "react-icons/fa";
 
 const HeaderAdmin = ({ setSidebar, title = "" }) => {
     return (
@@ -27,14 +28,9 @@ const HeaderAdmin = ({ setSidebar, title = "" }) => {
                     <div
                         tabIndex={0}
                         role="button"
-                        className="btn btn-ghost btn-circle avatar"
+                        className="btn btn-ghost btn-circle btn-sm bg-green-500 text-white hover:bg-green-600"
                     >
-                        <div className="w-10 rounded-full">
-                            <img
-                                alt="Tailwind CSS Navbar component"
-                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                            />
-                        </div>
+                        <FaUser />
                     </div>
                     <ul
                         tabIndex={0}
