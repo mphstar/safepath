@@ -120,6 +120,17 @@ class UserController extends Controller
         $data->role = 'user';
         $data->nohp = $request->nohp;
 
+        // cek jika ada fcm_token
+        if ($request->has('fcm_token')) {
+            $data->fcm_token = $request->fcm_token;
+        }
+        if ($request->has('latitude')) {
+            $data->latitude = $request->latitude;
+        }
+        if ($request->has('longitude')) {
+            $data->longitude = $request->longitude;
+        }
+
         $data->save();
 
         $userPreference = UserPreference::create([
@@ -214,6 +225,34 @@ class UserController extends Controller
 
             $user->{$request->column} = $request->value;
         }
+
+        $user->save();
+
+        return response()->json(['message' => 'Data updated successfully', 'data' => $user], 200);
+    }
+
+    public function updateFcmToken(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'fcm_token' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()->first()], 400);
+        }
+
+        $user = User::find($request->user_id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+
+        $user->fcm_token = $request->fcm_token;
+        $user->latitude = $request->latitude;
+        $user->longitude = $request->longitude;
 
         $user->save();
 

@@ -20,6 +20,9 @@ return new class extends Migration
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->string('nohp', 13)->nullable();
             $table->text('gambar')->nullable();
+            $table->string('fcm_token')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

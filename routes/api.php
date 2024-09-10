@@ -110,6 +110,7 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('profile')->group(function () {
         Route::post('update', [UserController::class, 'updateProfile']);
+        Route::post('update/fcm', [UserController::class, 'updateFcmToken']);
     });
 
     Route::post('/radar', [ReportController::class, 'getRadar']);

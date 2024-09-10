@@ -88,7 +88,7 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                 <SidebarItem
                     title="Data Laporan"
                     icon={<TbDatabaseExport />}
-                    active={active == "Riwayat"}
+                    active={active == "Data Laporan"}
                     href="/admin/history"
                 />
                 <SidebarItem
