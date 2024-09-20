@@ -41,6 +41,16 @@ class HistoryController extends Controller
             }
         }
 
+        if ($request->has('kategori')) {
+            $data->whereHas('detailKategori', function ($query) use ($request) {
+                if ($request->kategori == 'kejahatan') {
+                    $query->where('kategori_id', 1);
+                } else {
+                    $query->where('kategori_id', 2);
+                }
+            });
+        }
+
 
 
         return response()->json([
@@ -71,7 +81,7 @@ class HistoryController extends Controller
     public function export()
     {
 
-        return Excel::download(new HistoryExport(request()->status ?? ""), 'history.xlsx');
+        return Excel::download(new HistoryExport(request()->status ?? "", request()->kategori), 'history.xlsx');
     }
 
     public function getAllLaporanFinished(Request $request)

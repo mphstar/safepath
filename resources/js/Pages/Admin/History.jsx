@@ -11,7 +11,7 @@ import { debounce } from "../../Utils/Debounce";
 import { MdInfoOutline } from "react-icons/md";
 import useHistory from "../../Stores/useHistory";
 import HitApi from "../../Utils/HitApi";
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import Swal from "sweetalert2";
 
 const History = () => {
@@ -19,11 +19,13 @@ const History = () => {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("all");
+    const [kategori, setKategori] = useState("kejahatan");
     const URL = GenerateUrl(
         "/api/v1/history",
         `page=${page}`,
         `search=${encodeURIComponent(search)}`,
-        `filter=${filter}`
+        `filter=${filter}`,
+        `kategori=${kategori}`
     );
     const { data, error, isLoading } = useSWR(URL, fetcher);
 
@@ -43,6 +45,40 @@ const History = () => {
             <FormImport url={URL} />
 
             <div className="w-full h-full flex flex-col px-3 py-4">
+                <div className="flex flex-row mb-8 cursor-pointer">
+                    <button
+                        onClick={() => {
+                            setKategori("kejahatan");
+                            setPage(1);
+                        }}
+                    >
+                        <div
+                            className={`px-3 py-2 ${
+                                kategori == "kejahatan"
+                                    ? "bg-primary text-white"
+                                    : "hover:bg-gray-100"
+                            } rounded-md`}
+                        >
+                            Kejahatan
+                        </div>
+                    </button>
+                    <button
+                        onClick={() => {
+                            setKategori("kecelakaan");
+                            setPage(1);
+                        }}
+                    >
+                        <div
+                            className={`px-3 py-2 ${
+                                kategori == "kecelakaan"
+                                    ? "bg-primary text-white"
+                                    : "hover:bg-gray-100"
+                            } rounded-md`}
+                        >
+                            Kecelakaan
+                        </div>
+                    </button>
+                </div>
                 <div className="flex flex-col md:flex-row items-center justify-between w-full gap-4 mb-3">
                     <label className="input input-bordered flex w-full items-center gap-2  md:max-w-[300px]">
                         <input
@@ -88,7 +124,9 @@ const History = () => {
                         >
                             Import
                         </button>
-                        <a href="/admin/history/export?status=history">
+                        <a
+                            href={`/admin/history/export?status=history&kategori=${kategori}`}
+                        >
                             <button className="btn bg-blue-500 hover:bg-blue-600 px-3 py-2 text-white">
                                 Export
                             </button>

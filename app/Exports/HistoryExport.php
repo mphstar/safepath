@@ -16,22 +16,36 @@ class HistoryExport implements FromCollection, WithStyles, ShouldAutoSize
      */
 
     protected $status;
+    protected $kategori;
 
-    public function __construct($status)
+    public function __construct($status, $kategori)
     {
         $this->status = $status;
+        $this->kategori = $kategori;
     }
 
     public function collection()
     {
+
+        $data = Laporan::with(['user', 'polsek', 'detailKategori.kategori']);
+
         if ($this->status == 'history') {
-            $data = Laporan::with(['user', 'polsek', 'detailKategori.kategori'])->where(function ($query) {
+            $data->where(function ($query) {
                 $query->where('status', 'disetujui')->orWhere('status', 'ditolak');
-            })->get();
+            });
         } else {
-            $data = Laporan::with(['user', 'polsek', 'detailKategori.kategori'])->where(function ($query) {
-                $query->where('status', 'menunggu');
-            })->get();
+            $data->where('status', 'menunggu');
+        }
+
+
+        if ($this->kategori == 'kejahatan') {
+            $data->whereHas('detailKategori', function ($query) {
+                $query->where('kategori_id', 1);
+            });
+        } else {
+            $data->whereHas('detailKategori', function ($query) {
+                $query->where('kategori_id', 2);
+            });
         }
 
 
@@ -51,7 +65,7 @@ class HistoryExport implements FromCollection, WithStyles, ShouldAutoSize
         ];
         $formatData = [];
 
-        foreach ($data as $key => $value) {
+        foreach ($data->get() as $key => $value) {
             $koordinate = explode(",", $value->lokasi);
             $latitude = $koordinate[0];
             $longitude = $koordinate[1];
