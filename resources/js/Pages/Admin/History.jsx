@@ -307,7 +307,7 @@ const FormImport = ({ url }) => {
                     </p> */}
                     <p className="text-sm text-gray-400">
                         Unduh contoh laporan seperti pada format{" "}
-                        <a className="text-blue-500 text-sm" href="#">
+                        <a className="text-blue-500 text-sm" href="/files/template.xlsx">
                             berikut
                         </a>
                     </p>
