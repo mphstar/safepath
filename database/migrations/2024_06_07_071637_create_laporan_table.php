@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('detail_kategori_id')->constrained('detail_kategori')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('polsek_id')->constrained('polsek')->onUpdate('cascade')->onDelete('cascade');
             $table->text('keterangan');
-            $table->string('bukti_gambar');
+            $table->string('bukti_gambar')->nullable();
             $table->enum('status', ['menunggu', 'disetujui', 'ditolak']);
             $table->string('lokasi');
 

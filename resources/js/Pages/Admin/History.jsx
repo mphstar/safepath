@@ -1,33 +1,31 @@
 import React, { useState } from "react";
 import AdminLayout from "../../Components/Templates/AdminLayout";
 import NoDataTable from "../../Components/Molecules/NoDataTable";
-import { FaEdit, FaInfo, FaTrash } from "react-icons/fa";
+import { FaArrowDown } from "react-icons/fa";
 import Pagination from "../../Components/Molecules/Pagination";
 import CustomModal from "../../Components/Molecules/CustomModal";
 import { fetcher } from "../../Utils/Fetcher";
 import useSWR, { mutate } from "swr";
-import useUser from "../../Stores/useUser";
 import GenerateUrl from "../../Utils/GenerateUrl";
 import { debounce } from "../../Utils/Debounce";
-import { IoEye, IoEyeOff } from "react-icons/io5";
-import Swal from "sweetalert2";
-import HitApi from "../../Utils/HitApi";
-import DeleteData from "../../Utils/DeleteData";
-import usePolsek from "../../Stores/usePolsek";
-import useBerita from "../../Stores/useBerita";
-import { MdInfoOutline, MdOutlineCloudUpload } from "react-icons/md";
-import useConfirmReport from "../../Stores/useConfirmReport";
+import { MdInfoOutline } from "react-icons/md";
 import useHistory from "../../Stores/useHistory";
-import { Link } from "@inertiajs/react";
+import HitApi from "../../Utils/HitApi";
+import { Link, usePage } from "@inertiajs/react";
+import Swal from "sweetalert2";
 
 const History = () => {
     const store = useHistory();
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
+    const [filter, setFilter] = useState("all");
+    const [kategori, setKategori] = useState("kejahatan");
     const URL = GenerateUrl(
         "/api/v1/history",
         `page=${page}`,
-        `search=${encodeURIComponent(search)}`
+        `search=${encodeURIComponent(search)}`,
+        `filter=${filter}`,
+        `kategori=${kategori}`
     );
     const { data, error, isLoading } = useSWR(URL, fetcher);
 
@@ -42,16 +40,51 @@ const History = () => {
     };
 
     return (
-        <AdminLayout title="History">
+        <AdminLayout title="Data Laporan">
             <DetailModal URL={URL} />
+            <FormImport url={URL} />
 
             <div className="w-full h-full flex flex-col px-3 py-4">
-                <div className="flex items-center justify-between w-full gap-4 mb-3">
-                    <label className="input input-bordered flex w-full items-center gap-2 max-w-[200px] md:max-w-[300px]">
+                <div className="flex flex-row mb-8 cursor-pointer">
+                    <button
+                        onClick={() => {
+                            setKategori("kejahatan");
+                            setPage(1);
+                        }}
+                    >
+                        <div
+                            className={`px-3 py-2 ${
+                                kategori == "kejahatan"
+                                    ? "bg-primary text-white"
+                                    : "hover:bg-gray-100"
+                            } rounded-md`}
+                        >
+                            Kejahatan
+                        </div>
+                    </button>
+                    <button
+                        onClick={() => {
+                            setKategori("kecelakaan");
+                            setPage(1);
+                        }}
+                    >
+                        <div
+                            className={`px-3 py-2 ${
+                                kategori == "kecelakaan"
+                                    ? "bg-primary text-white"
+                                    : "hover:bg-gray-100"
+                            } rounded-md`}
+                        >
+                            Kecelakaan
+                        </div>
+                    </button>
+                </div>
+                <div className="flex flex-col md:flex-row items-center justify-between w-full gap-4 mb-3">
+                    <label className="input input-bordered flex w-full items-center gap-2  md:max-w-[300px]">
                         <input
                             type="text"
                             className="w-full"
-                            placeholder="Search"
+                            placeholder="Cari"
                             onChange={handleChangeSearch}
                         />
                         <svg
@@ -67,9 +100,34 @@ const History = () => {
                             />
                         </svg>
                     </label>
-                    <div className="flex flex-row">
-                        <a href="/admin/history/export?status=history">
-                            <button className="btn bg-green-500 hover:bg-green-600 px-3 py-2 text-white">
+                    <div className="flex flex-row gap-2 w-full md:w-fit">
+                        <div className="border-2 relative rounded-md w-full md:w-fit">
+                            <select
+                                className="appearance-none h-full px-2 pr-8"
+                                name=""
+                                value={filter}
+                                onChange={(e) => setFilter(e.target.value)}
+                                id=""
+                            >
+                                <option value="all">Semua</option>
+                                <option value="ditolak">Ditolak</option>
+                                <option value="disetujui">Disetujui</option>
+                            </select>
+                            <FaArrowDown
+                                size={12}
+                                className="absolute top-0 right-2 h-full"
+                            />
+                        </div>
+                        <button
+                            onClick={() => store.handleFormImport()}
+                            className="btn bg-orange-500 hover:bg-orange-600 px-3 py-2 text-white"
+                        >
+                            Import
+                        </button>
+                        <a
+                            href={`/admin/history/export?status=history&kategori=${kategori}`}
+                        >
+                            <button className="btn bg-blue-500 hover:bg-blue-600 px-3 py-2 text-white">
                                 Export
                             </button>
                         </a>
@@ -94,7 +152,7 @@ const History = () => {
                                             <th>Pengirim</th>
                                             <th>Kategori</th>
                                             <th>No HP</th>
-                                            <th>Lokasi</th>
+                                            <th>Kecamatan</th>
                                             <th>Status</th>
                                             <th>Created At</th>
                                             <th>Aksi</th>
@@ -139,7 +197,9 @@ const History = () => {
                                                     </div>
                                                 </td>
                                                 <td>{item.user.nohp}</td>
-                                                <td>{item.lokasi}</td>
+                                                <td>
+                                                    {item.polsek.nama_kecamatan}
+                                                </td>
                                                 <td>
                                                     <div
                                                         className={`text-xs px-3 py-1 rounded-md w-fit ${
@@ -191,6 +251,77 @@ const History = () => {
                 </NoDataTable>
             </div>
         </AdminLayout>
+    );
+};
+
+const FormImport = ({ url }) => {
+    const store = useHistory();
+    const [file, setFile] = useState();
+
+    const { props } = usePage();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        Swal.fire({
+            title: "Loading",
+            html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+            allowOutsideClick: false,
+            showConfirmButton: false,
+        });
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("user_id", props.auth.id);
+
+        HitApi({
+            url: "/api/v1/laporan/import",
+            method: "POST",
+            body: formData,
+            isFormData: true,
+            onSuccess: () => {
+                Swal.fire("Berhasil", "Data berhasil diimport", "success");
+
+                setFile(null);
+                store.handleFormImport();
+                mutate(url);
+            },
+            onError: () => {
+                console.log("Error");
+            },
+            onFinally: () => {
+                // Swal.close();
+            },
+        });
+    };
+    return (
+        <CustomModal
+            show={store.formImport}
+            setShow={() => store.handleFormImport()}
+            title={"Import Data"}
+        >
+            <form onSubmit={handleSubmit} action="">
+                <div className="flex flex-col gap-4">
+                    {/* <p className="text-sm text-gray-400">
+                        Import data laporan dengan format excel
+                    </p> */}
+                    <p className="text-sm text-gray-400">
+                        Unduh contoh laporan seperti pada format{" "}
+                        <a className="text-blue-500 text-sm" href="/files/template.xlsx">
+                            berikut
+                        </a>
+                    </p>
+                    <input
+                        type="file"
+                        onChange={(e) => setFile(e.target.files[0])}
+                        className="file-input file-input-bordered"
+                    />
+                    <button className="btn bg-blue-500 hover:bg-blue-600 text-white">
+                        Import
+                    </button>
+                </div>
+            </form>
+        </CustomModal>
     );
 };
 
@@ -250,9 +381,20 @@ const DetailModal = ({ URL }) => {
                             <p>{store.itemSelected.detail_kategori.nama}</p>
                         </div>
                         <div className="flex flex-row">
+                            <p className="w-[100px] truncate">Kecamatan</p>
+                            <p className="px-2">:</p>
+                            <p>{store.itemSelected.polsek.nama_kecamatan}</p>
+                        </div>
+                        <div className="flex flex-row">
                             <p className="w-[100px] truncate">Lokasi</p>
                             <p className="px-2">:</p>
-                            <p>{store.itemSelected.lokasi}</p>
+                            <a
+                                className="text-blue-500"
+                                target="_blank"
+                                href={`http://maps.google.com?q=${store.itemSelected.lokasi}`}
+                            >
+                                Klik disini
+                            </a>
                         </div>
 
                         <p className="my-4 font-semibold">Gambar</p>

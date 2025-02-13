@@ -168,7 +168,7 @@ const Grafik = () => {
     }, []);
 
     return (
-        <AdminLayout title="Grafik">
+        <AdminLayout title="Infografik">
             <div className="w-full h-full flex flex-col px-3 py-4">
                 <div className="flex flex-row items-center gap-3">
                     <div>Filter Tahun</div>
@@ -198,7 +198,7 @@ const Grafik = () => {
                 </div>
                 <div>
                     <div className="bg-white h-[500px] w-full rounded-md pointer-events-auto flex flex-col mt-4 py-2">
-                        <h1 className="font-semibold">Statistics</h1>
+                        <h1 className="font-semibold">Statistik</h1>
                         <div className="w-full h-full mt-6">
                             <ReactApexChart
                                 options={chartOptions}
@@ -243,7 +243,7 @@ const Grafik = () => {
                 </div>
                 <div>
                     <div className="bg-white h-[500px] w-full rounded-md pointer-events-auto flex flex-col mt-4 py-2">
-                        <h1 className="font-semibold">Report Kecamatan</h1>
+                        <h1 className="font-semibold">Laporan per Kecamatan</h1>
                         <div className="w-full h-full mt-6">
                             <ReactApexChart
                                 options={kecamatan}

@@ -189,6 +189,7 @@ class DashboardController extends Controller
 
         $laporan = Laporan::with(['detailKategori.kategori', 'user'])->where('status', 'disetujui')->orderBy('created_at', 'DESC')->select('lokasi', 'detail_kategori_id')->get();
 
+        // return $laporan;
 
         return Inertia::render('Admin/Dashboard', [
             'statistik' => $statistik,

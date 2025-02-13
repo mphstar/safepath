@@ -5,9 +5,9 @@ import { FaBookOpenReader, FaChartColumn } from "react-icons/fa6";
 import { LuBuilding } from "react-icons/lu";
 
 import { BiCctv } from "react-icons/bi";
-import { MdHistory } from "react-icons/md";
+import { MdHistory, MdReport } from "react-icons/md";
 import { RiNewsLine } from "react-icons/ri";
-import { TbBuildingCommunity, TbReportSearch } from "react-icons/tb";
+import { TbBuildingCommunity, TbDatabaseExport, TbReportSearch } from "react-icons/tb";
 
 const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
     return (
@@ -23,7 +23,7 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                         <div className="w-10">
                             <img src="/assets/images/logo.png" alt="Logo" />
                         </div>
-                        <div className="text-black border-l-2 border-primary pl-2 text-[20px] md:text-base flex-1">
+                        <div className="text-black border-l-2 border-primary pl-2 md:text-base flex-1">
                             <span className="text-primary">Safe</span>Path
                         </div>
                     </span>
@@ -37,11 +37,11 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     href="/admin"
                 />
 
-                <p className="text-gray-400 text-sm py-2 mt-6">Master Data</p>
+                <p className="text-gray-400 text-sm py-2 mt-6">Data</p>
                 <SidebarItem
-                    title="User"
+                    title="Admin"
                     icon={<FaUser />}
-                    active={active == "User"}
+                    active={active == "Admin"}
                     href="/admin/user"
                 />
                 <SidebarItem
@@ -64,11 +64,11 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     href="/admin/cctv"
                 />
 
-                <p className="text-gray-400 text-sm py-2 mt-6">Services</p>
+                <p className="text-gray-400 text-sm py-2 mt-6">Layanan</p>
                 <SidebarItem
-                    title="Confirm Report"
+                    title="Konfirmasi Laporan"
                     icon={<TbReportSearch />}
-                    active={active == "Confirm Report"}
+                    active={active == "Konfirmasi Laporan"}
                     href="/admin/confirm-report"
                 />
                 <SidebarItem
@@ -78,18 +78,24 @@ const SidebarAdmin = ({ showSidebar, setShowSidebar, active = "" }) => {
                     href="/admin/berita"
                 />
 
-                <p className="text-gray-400 text-sm py-2 mt-6">Report</p>
+                <p className="text-gray-400 text-sm py-2 mt-6">Laporan</p>
                 <SidebarItem
-                    title="Grafik"
+                    title="Infografik"
                     icon={<FaChartColumn />}
-                    active={active == "Grafik"}
+                    active={active == "Infografik"}
                     href="/admin/grafik"
                 />
                 <SidebarItem
-                    title="History Report"
-                    icon={<MdHistory />}
-                    active={active == "History"}
+                    title="Data Laporan"
+                    icon={<TbDatabaseExport />}
+                    active={active == "Data Laporan"}
                     href="/admin/history"
+                />
+                <SidebarItem
+                    title="Laporan Darurat"
+                    icon={<MdReport />}
+                    active={active == "Laporan Darurat"}
+                    href="/admin/sos"
                 />
             </div>
             <div

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PolsekController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\SosController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\LoginController;
@@ -74,5 +75,7 @@ Route::middleware([AuthMiddleware::class])->group(function () {
             Route::get('/', [HistoryController::class, 'index']);
             Route::get('/export', [HistoryController::class, 'export']);
         });
+
+        Route::get('/sos', [SosController::class, 'index']);
     });
 });

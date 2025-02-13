@@ -55,7 +55,7 @@ const KategoriKecelakaan = () => {
                         <input
                             type="text"
                             className="w-full"
-                            placeholder="Search"
+                            placeholder="Cari"
                             onChange={handleChangeSearch}
                         />
                         <svg
@@ -79,7 +79,7 @@ const KategoriKecelakaan = () => {
                             }}
                             className="btn bg-[#52C12C] text-white hover:bg-green-500 w-fit"
                         >
-                            <p className="flex">Add</p>
+                            <p className="flex">Tambah</p>
                         </button>
                     </div>
                 </div>
@@ -100,7 +100,7 @@ const KategoriKecelakaan = () => {
                                         <tr>
                                             <th></th>
                                             <th>Nama Kategori</th>
-                                            <th>Created At</th>
+                                            <th>Tanggal</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>

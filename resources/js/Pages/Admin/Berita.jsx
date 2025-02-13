@@ -48,7 +48,7 @@ const Berita = () => {
                         <input
                             type="text"
                             className="w-full"
-                            placeholder="Search"
+                            placeholder="Cari"
                             onChange={handleChangeSearch}
                         />
                         <svg
@@ -72,7 +72,7 @@ const Berita = () => {
                             }}
                             className="btn bg-[#52C12C] text-white hover:bg-green-500 w-fit"
                         >
-                            <p className="flex">Add</p>
+                            <p className="flex">Tambah</p>
                         </button>
                     </div>
                 </div>
@@ -95,7 +95,7 @@ const Berita = () => {
                                             <th>Judul</th>
                                             <th>Deskripsi</th>
                                             <th>Penulis</th>
-                                            <th>Created At</th>
+                                            <th>Tanggal</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -141,7 +141,7 @@ const Berita = () => {
                                                                         item.deskripsi,
                                                                     penulis:
                                                                         item.penulis,
-                                                                    gambar: `/uploads/laporan/${item.gambar}`,
+                                                                    gambar: `/uploads/berita/${item.gambar}`,
                                                                 });
 
                                                                 store.handleModal();
@@ -202,7 +202,7 @@ const DetailModal = () => {
                 <div className="flex flex-col mt-2">
                     <img
                         className="h-[200px] mb-4 rounded-md"
-                        src={`/uploads/laporan/${store.itemSelected.gambar}`}
+                        src={`/uploads/berita/${store.itemSelected.gambar}`}
                         alt="Image"
                     />
                     <h1 className="font-semibold text-lg">

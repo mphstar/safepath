@@ -1,13 +1,11 @@
 import { create } from "zustand";
 
-const useHistory = create((set) => ({
+const useSos = create((set) => ({
     detailModal: false,
     handleDetailModal: () =>
         set((state) => ({ detailModal: !state.detailModal })),
-    formImport: false,
-    handleFormImport: () => set((state) => ({ formImport: !state.formImport })),
     itemSelected: undefined,
     setItemSelected: (data) => set({ itemSelected: data }),
 }));
 
-export default useHistory;
+export default useSos;

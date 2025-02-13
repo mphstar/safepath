@@ -70,7 +70,7 @@ const Polsek = () => {
                             }}
                             className="btn bg-[#52C12C] text-white hover:bg-green-500 w-fit"
                         >
-                            <p className="flex">Add</p>
+                            <p className="flex">Tambah</p>
                         </button>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ const Polsek = () => {
                                             <th>Nama Kecamatan</th>
                                             <th>Email</th>
                                             <th>Penanggung Jawab</th>
-                                            <th>Created At</th>
+                                            <th>Tanggal</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>

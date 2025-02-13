@@ -16,42 +16,70 @@ class HistoryExport implements FromCollection, WithStyles, ShouldAutoSize
      */
 
     protected $status;
+    protected $kategori;
 
-    public function __construct($status)
+    public function __construct($status, $kategori)
     {
         $this->status = $status;
+        $this->kategori = $kategori;
     }
 
     public function collection()
     {
+
+        $data = Laporan::with(['user', 'polsek', 'detailKategori.kategori']);
+
         if ($this->status == 'history') {
-            $data = Laporan::with(['user', 'detailKategori.kategori'])->where(function ($query) {
+            $data->where(function ($query) {
                 $query->where('status', 'disetujui')->orWhere('status', 'ditolak');
-            })->get();
+            });
         } else {
-            $data = Laporan::with(['user', 'detailKategori.kategori'])->where(function ($query) {
-                $query->where('status', 'menunggu');
-            })->get();
+            $data->where('status', 'menunggu');
         }
+
+
+        if ($this->kategori == 'kejahatan') {
+            $data->whereHas('detailKategori', function ($query) {
+                $query->where('kategori_id', 1);
+            });
+        } else {
+            $data->whereHas('detailKategori', function ($query) {
+                $query->where('kategori_id', 2);
+            });
+        }
+
+
 
         $column = [
             'No',
             'Nama Pelapor',
-            'Kategori Kejahatan',
+            'ID Kategori',
             'Detail Kategori',
+            'ID Kecamatan',
+            'Kecamatan',
             'Keterangan',
+            'Latitude',
+            'Longitude',
             'Status',
             'Tanggal'
         ];
         $formatData = [];
 
-        foreach ($data as $key => $value) {
+        foreach ($data->get() as $key => $value) {
+            $koordinate = explode(",", $value->lokasi);
+            $latitude = $koordinate[0];
+            $longitude = $koordinate[1];
+
             $formatData[] = [
                 $key + 1,
                 $value->user->name,
-                $value->detailKategori->kategori->nama,
+                $value->detailKategori->id,
                 $value->detailKategori->nama,
+                $value->polsek->id,
+                $value->polsek->nama_kecamatan,
                 $value->keterangan,
+                $latitude,
+                $longitude,
                 $value->status,
                 $value->created_at->format('d-m-Y') ?? ""
             ];
